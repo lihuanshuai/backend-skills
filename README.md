@@ -4,7 +4,7 @@
 
 ## 依赖
 
-- **Python**：带脚本的技能（csv-extract-export、yaml-json-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `requirements.txt`）。
+- **Python**：带脚本的技能（csv-extract-export、yaml-json-convert、json-object-array-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `requirements.txt`）。json-object-array-convert 仅用标准库，无额外依赖。
 - **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 
 ## 安装
@@ -34,3 +34,4 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r re
 | `skills/fix-with-pre-commit/` | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
 | `skills/csv-extract-export/` | 从 CSV 按列提取并导出为 YAML/JSON |
 | `skills/yaml-json-convert/` | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
+| `skills/json-object-array-convert/` | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
