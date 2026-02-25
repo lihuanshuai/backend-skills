@@ -31,6 +31,7 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r re
 
 | 技能目录 | 说明 |
 |----------|------|
+| `skills/replace-black-with-ruff/` | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
 | `skills/fix-with-pre-commit/` | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
 | `skills/csv-extract-export/` | 从 CSV 按列提取并导出为 YAML/JSON |
 | `skills/yaml-json-convert/` | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
