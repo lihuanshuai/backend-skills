@@ -1,6 +1,6 @@
 ---
 name: json-object-array-convert
-description: 'Converts between JSON object and array using a user-specified key field. Object→array: each key becomes a field in the item; array→object: one field's value becomes the object key. Use when converting JSON object to array, array to object, or when the user asks for "对象转数组", "数组转对象", "key 转成字段".'
+description: Converts between JSON object and array using a user-specified key field. Object→array means that each key becomes a field in the item; array→object means that one field's value becomes the object key. Use when converting JSON object to array, array to object, or when the user asks for "对象转数组", "数组转对象", "key 转成字段".
 ---
 
 # JSON 对象与数组互转

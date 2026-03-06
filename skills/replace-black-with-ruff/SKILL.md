@@ -26,12 +26,12 @@ description: Replaces black, isort, and flake8 (and optionally autoflake) with r
 示例（YAML 缩进 2 空格）：
 
 ```yaml
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.2
-    hooks:
-    - id: ruff-check
-      args: [--fix, --extend-select, "I,UP", --unsafe-fixes]
-    - id: ruff-format
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.15.2
+  hooks:
+  - id: ruff-check
+    args: [--fix, --extend-select, "I,UP", --unsafe-fixes]
+  - id: ruff-format
 ```
 
 ### 2. 修改 `pyproject.toml`
@@ -62,9 +62,43 @@ quote-style = "preserve"
   - `quote-style = "preserve"` 与多数既有代码库一致；若项目统一双引号可改为 `"double"`。
   - 若有特殊目录需忽略某些规则，可加 `[tool.ruff.lint.per-file-ignores]`（参见 [ruff 文档](https://docs.astral.sh/ruff/configuration/)）。
 
+### 2.5 更新 CI 配置
+
+若项目有 CI 配置（如 `app.yaml` 的 `test_handlers`、Jenkinsfile、GitHub Actions 等），需同步更新：
+
+1. **检查** CI 配置中是否存在 flake8、black、isort 相关的 lint/format 任务。
+2. **删除**上述工具的 CI 任务（若存在）。
+3. **新增或更新** ruff 的 CI 任务：执行 `ruff check`（及可选的 `ruff format --check`），按各自 CI 的配置方式添加任务即可；可参考已有项目中的类似配置。
+4. **创建或更新** ruff 脚本（如 `tools/ruff.sh`）：
+   - 执行 `ruff check`，可加 `--output-file=ruff.out`
+   - 可选：执行 `ruff format --check` 做格式检查
+   - 可参考已有项目中的 ruff 脚本写法
+
+示例（以 `app.yaml` 的 `test_handlers` 为例）：
+
+```yaml
+- name: ruff
+  type: flake8
+  test_script: tools/ci-scripts/ruff.sh
+  pip_req_path: tools/ci-scripts/ruff-reqs.txt
+  enable_pr: true
+  archive: ruff.out
+```
+
+ruff 脚本示例：
+
+```bash
+set -e
+
+rm -rf ruff.out
+
+ruff check --output-file=ruff.out .
+```
+
 ### 3. 验证
 
-- 在项目根目录执行：`pre-commit run --all-files`
+- 不要对全量文件执行 pre-commit，随机挑选一些文件验证即可。
+- 例如：用 `find` 或 `ls` 列出项目中的 .py 文件，随机选若干（如 5–10 个），然后执行 `pre-commit run ruff-check --files <file1> <file2> ...` 和 `pre-commit run ruff-format --files <file1> <file2> ...`
 - 若有失败：按 ruff 报错修代码或微调 `ignore` / `per-file-ignores`，再跑直到通过。
 
 ## 参考
