@@ -33,6 +33,10 @@ description: Upgrades Python dependency versions in pip-req.txt, requirements.tx
 
 - **用户已指定版本**：直接使用
 - **用户未指定**：可用 `pip index versions <package>` 或 PyPI 查询最新版本；内部项目可用内部 PyPI API
+- **输出过滤**：用管道仅取最新版本，避免冗长列表传入上下文：
+  ```bash
+  pip index versions <package> 2>/dev/null | head -1 | sed -n 's/.*(\([^)]*\)).*/\1/p'
+  ```
 
 ### 2. 定位依赖文件
 
