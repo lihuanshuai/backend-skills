@@ -103,5 +103,5 @@ ruff check --output-file=ruff.out .
 
 ## 参考
 
-- 若项目与豆瓣 group 等仓库风格一致，可直接参照其 `pyproject.toml` 中 `[tool.ruff]`、`[tool.ruff.lint]`、`[tool.ruff.format]` 及 `.pre-commit-config.yaml` 中的 ruff 部分。
+- 若项目与已有仓库风格一致，可直接参照其 `pyproject.toml` 中 `[tool.ruff]`、`[tool.ruff.lint]`、`[tool.ruff.format]` 及 `.pre-commit-config.yaml` 中的 ruff 部分。
 - Ruff 规则与 black/isort/flake8 的对应关系见 [Ruff 规则映射](https://docs.astral.sh/ruff/rules/)。
