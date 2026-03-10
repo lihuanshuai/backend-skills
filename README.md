@@ -31,8 +31,9 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r re
 
 | 技能目录 | 说明 |
 |----------|------|
-| `skills/replace-black-with-ruff/` | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
-| `skills/fix-with-pre-commit/` | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
-| `skills/csv-extract-export/` | 从 CSV 按列提取并导出为 YAML/JSON |
-| `skills/yaml-json-convert/` | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
-| `skills/json-object-array-convert/` | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
+| [skills/replace-black-with-ruff/](skills/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
+| [skills/fix-with-pre-commit/](skills/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
+| [skills/csv-extract-export/](skills/csv-extract-export/) | 从 CSV 按列提取并导出为 YAML/JSON |
+| [skills/yaml-json-convert/](skills/yaml-json-convert/) | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
+| [skills/json-object-array-convert/](skills/json-object-array-convert/) | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
+| [skills/python-bump-version/](skills/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
