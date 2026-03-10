@@ -8,6 +8,7 @@ backend-skills 是面向后端开发的 Cursor Agent 技能集合。每个技能
   - `name`: 技能标识，与目录名一致，简短英文
   - `description`: 一句话说明技能用途与触发场景，供 Agent 匹配
   - 可选：`commandPalette`、`metadata` 等
+- **metadata.depends_on / used_by**：仅可引用本仓库 README 技能列表中列出的技能，不得依赖未列出项目的 skill
 - 使用中文编写技能正文，结构清晰（概述、使用方式、示例、注意事项等）
 - 若技能依赖外部工具或库（如 PyYAML、pre-commit），在技能内和 README 中明确说明
 
