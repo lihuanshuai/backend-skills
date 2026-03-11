@@ -6,6 +6,7 @@
 
 - **Python**：带脚本的技能（csv-extract-export、yaml-json-convert、json-object-array-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `requirements.txt`）。json-object-array-convert 仅用标准库，无额外依赖。
 - **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
+- **com2ann**：`com2ann-type-comment-to-hint` 技能需 Python 3.8+ 并安装 `pip install com2ann`。
 
 ## 安装
 
@@ -39,3 +40,4 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r re
 | [skills/python-bump-version/](skills/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
 | [skills/python-upgrade-deps/](skills/python-upgrade-deps/) | 升级依赖包版本，支持 pip-req.txt、requirements.txt、pyproject.toml |
 | [skills/plan-and-execute/](skills/plan-and-execute/) | 通用的「先规划、再确认、再执行」流程，适用于复杂产品需求、重构、迁移、拆分大文件等分步任务 |
+| [skills/com2ann-type-comment-to-hint/](skills/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
