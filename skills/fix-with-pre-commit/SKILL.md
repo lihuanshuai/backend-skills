@@ -24,7 +24,8 @@ commandPalette: true
 
 ### 2. 运行 Pre-commit
 
-- **全量**：`pre-commit run --all-files`
+- **不得使用 `--all-files` 对全部文件执行**。
+- **仅 staged 文件**：`pre-commit run`（无参数时默认对 staged 文件执行）。
 - **仅指定文件**：若用户给定了文件列表或某次 linter 输出（如 `ruff.out`）中的文件，提取这些文件的路径后执行：
   `pre-commit run --files <file1> <file2> ...`
 
@@ -34,9 +35,9 @@ commandPalette: true
 
 1. **分析**：从报错日志中识别受影响的文件、行号及具体规则（如 ruff 规则码、mypy 错误类型）。
 2. **修复**：
-   - 优先处理可自动修复项：格式化、移除多余 coding 声明、`dict()` 改字面量、简单 import 调整等；必要时再次运行 `pre-commit run`（仅针对刚改动的文件或 `--all-files`）以确认。
+   - 优先处理可自动修复项：格式化、移除多余 coding 声明、`dict()` 改字面量、简单 import 调整等；必要时再次运行 `pre-commit run`（仅针对刚改动的文件）以确认。
    - 对需人工判断的（如逻辑错误、复杂类型、业务相关）不做盲目自动改。
-3. **验证**：修复后对受影响文件或全量执行 `pre-commit run`。
+3. **验证**：修复后对受影响文件执行 `pre-commit run`（或 `pre-commit run --files <受影响文件>`）。
 4. **迭代**：重复分析→修复→验证，直到全部通过或达到终止条件。
 
 ### 4. 终止与汇总
