@@ -30,14 +30,31 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r re
 
 ## 技能列表
 
+### 代码规范与工具
+
 | 技能目录 | 说明 |
 |----------|------|
 | [skills/replace-black-with-ruff/](skills/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
 | [skills/fix-with-pre-commit/](skills/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
+| [skills/com2ann-type-comment-to-hint/](skills/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
+
+### 数据转换
+
+| 技能目录 | 说明 |
+|----------|------|
 | [skills/csv-extract-export/](skills/csv-extract-export/) | 从 CSV 按列提取并导出为 YAML/JSON |
 | [skills/yaml-json-convert/](skills/yaml-json-convert/) | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
 | [skills/json-object-array-convert/](skills/json-object-array-convert/) | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
+
+### 版本与依赖
+
+| 技能目录 | 说明 |
+|----------|------|
 | [skills/python-bump-version/](skills/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
 | [skills/python-upgrade-deps/](skills/python-upgrade-deps/) | 升级依赖包版本，支持 pip-req.txt、requirements.txt、pyproject.toml |
+
+### 流程与规划
+
+| 技能目录 | 说明 |
+|----------|------|
 | [skills/plan-and-execute/](skills/plan-and-execute/) | 通用的「先规划、再确认、再执行」流程，适用于复杂产品需求、重构、迁移、拆分大文件等分步任务 |
-| [skills/com2ann-type-comment-to-hint/](skills/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
