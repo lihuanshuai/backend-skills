@@ -1,7 +1,6 @@
 ---
 name: fix-with-pre-commit
 description: 检查并自动修复 pre-commit 报错。在需要跑 pre-commit、修复 hook 失败或希望自动修复到全部通过时使用此技能。
-commandPalette: true
 ---
 
 # 用 Pre-commit 检查并修复
