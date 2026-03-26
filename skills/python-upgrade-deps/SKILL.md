@@ -27,6 +27,10 @@ description: Upgrades Python dependency versions in pip-req.txt, requirements.tx
 - `>=`：最低版本
 - 升级后默认使用 `~=` 以保持兼容性，除非用户指定其他约束符
 
+## 路径约定
+
+本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/upgrade_dep.py`。
+
 ## 执行步骤
 
 ### 1. 确定目标版本
@@ -67,7 +71,7 @@ description: Upgrades Python dependency versions in pip-req.txt, requirements.tx
 ### 4. 使用脚本（推荐）
 
 ```bash
-python scripts/upgrade_dep.py <项目根目录> <包名> [目标版本]
+python <skill_dir>/scripts/upgrade_dep.py <项目根目录> <包名> [目标版本]
 ```
 
 - `目标版本` 省略时，脚本会尝试从 PyPI 获取最新版本（需网络）

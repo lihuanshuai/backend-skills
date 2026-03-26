@@ -7,12 +7,16 @@ description: Extracts specified CSV columns into a list of objects and exports a
 
 从 CSV 中按用户指定的列提取数据，组成对象列表并导出为 **YAML** 或 **JSON**。列名与输出键、类型的对应由用户提供。
 
+## 路径约定
+
+本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/csv_export.py`、`<skill_dir>/scripts/requirements.txt`。
+
 ## 使用方式
 
-用脚本 `scripts/csv_export.py` 执行转换：
+用脚本 `<skill_dir>/scripts/csv_export.py` 执行转换：
 
 ```bash
-python scripts/csv_export.py <csv_path> --fields <映射> [--format yaml|json] [-o 输出路径]
+python <skill_dir>/scripts/csv_export.py <csv_path> --fields <映射> [--format yaml|json] [-o 输出路径]
 ```
 
 **映射格式**：`列名:键` 或 `列名:键:类型`，多个用逗号分隔。不写类型时默认为字符串。
@@ -26,10 +30,10 @@ python scripts/csv_export.py <csv_path> --fields <映射> [--format yaml|json] [
 
 ## 依赖
 
-输出 YAML 时脚本依赖 PyYAML，在技能目录下用 `requirements.txt` 声明。安装：
+输出 YAML 时脚本依赖 PyYAML，在技能目录下用 `<skill_dir>/scripts/requirements.txt` 声明。安装：
 
 ```bash
-cd skills/csv-extract-export && pip install -r requirements.txt
+pip install -r <skill_dir>/scripts/requirements.txt
 ```
 
 仅输出 JSON 时无需安装。
@@ -39,25 +43,25 @@ cd skills/csv-extract-export && pip install -r requirements.txt
 导出为 YAML（默认）：
 
 ```bash
-python scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --output result.yaml
+python <skill_dir>/scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --output result.yaml
 ```
 
 导出为 JSON：
 
 ```bash
-python scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --format json --output result.json
+python <skill_dir>/scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --format json --output result.json
 ```
 
 或仅写 `-o result.json`，脚本会根据扩展名自动用 JSON：
 
 ```bash
-python scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" -o result.json
+python <skill_dir>/scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" -o result.json
 ```
 
 输出到 stdout 且要 JSON 时显式加 `--format json`：
 
 ```bash
-python scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --format json
+python <skill_dir>/scripts/csv_export.py feed_info.csv --fields "小组id:id:int,小马名称:horse_name" --format json
 ```
 
 ## 用户需提供

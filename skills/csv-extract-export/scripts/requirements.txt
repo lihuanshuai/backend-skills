@@ -1,0 +1,2 @@
+# 本技能脚本在输出 YAML 时依赖，安装：pip install -r scripts/requirements.txt
+PyYAML>=6.0

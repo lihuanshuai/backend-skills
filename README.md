@@ -4,7 +4,7 @@
 
 ## 依赖
 
-- **Python**：带脚本的技能（csv-extract-export、yaml-json-convert、json-object-array-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `requirements.txt`）。json-object-array-convert 仅用标准库，无额外依赖。
+- **Python**：带脚本的技能（csv-extract-export、yaml-json-convert、json-object-array-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `scripts/requirements.txt`）。json-object-array-convert 仅用标准库，无额外依赖。
 - **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 - **com2ann**：`com2ann-type-comment-to-hint` 技能需 Python 3.8+ 并安装 `pip install com2ann`。
 
@@ -21,11 +21,11 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 
 完成后技能位于 `~/.cursor/skills/backend-skills/skills/`，Cursor Agent 会在「Agent Skills」中发现并读取各技能目录下的 `SKILL.md`。
 
-使用带脚本的技能（如 csv-extract-export、yaml-json-convert）时，若需 YAML 输出，在对应技能目录下安装依赖即可：
+使用带脚本的技能（如 csv-extract-export、yaml-json-convert）时，若需 YAML 输出，在对应技能目录下安装 `scripts/requirements.txt` 依赖即可：
 
 ```bash
-cd ~/.cursor/skills/backend-skills/skills/csv-extract-export && pip install -r requirements.txt
-cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r requirements.txt
+cd ~/.cursor/skills/backend-skills/skills/csv-extract-export && pip install -r scripts/requirements.txt
+cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r scripts/requirements.txt
 ```
 
 ## 技能列表

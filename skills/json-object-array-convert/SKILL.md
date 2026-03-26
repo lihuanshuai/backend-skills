@@ -17,16 +17,20 @@ description: Converts between JSON object and array using a user-specified key f
    - 对象→数组：该字段用于存放「原对象的 key」
    - 数组→对象：该字段的值作为「生成对象的 key」
 
+## 路径约定
+
+本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/json_convert.py`。
+
 ## 使用方式
 
-用脚本 `scripts/json_convert.py`，子命令 `to-array` / `to-object`（仅 Python 标准库）：
+用脚本 `<skill_dir>/scripts/json_convert.py`，子命令 `to-array` / `to-object`（仅 Python 标准库）：
 
 ```bash
 # 对象 → 数组
-python scripts/json_convert.py <输入.json> to-array --key-field <字段名> [-o 输出.json]
+python <skill_dir>/scripts/json_convert.py <输入.json> to-array --key-field <字段名> [-o 输出.json]
 
 # 数组 → 对象
-python scripts/json_convert.py <输入.json> to-object --key-field <字段名> [-o 输出.json]
+python <skill_dir>/scripts/json_convert.py <输入.json> to-object --key-field <字段名> [-o 输出.json]
 ```
 
 - **必选**：输入路径、子命令 `to-array`/`to-object`、`--key-field`（或 `-k`）。
@@ -57,7 +61,7 @@ python scripts/json_convert.py <输入.json> to-object --key-field <字段名> [
 ```
 
 ```bash
-python scripts/json_convert.py data.json to-array -k id -o result.json
+python <skill_dir>/scripts/json_convert.py data.json to-array -k id -o result.json
 ```
 
 **输出**：
@@ -81,7 +85,7 @@ python scripts/json_convert.py data.json to-array -k id -o result.json
 ```
 
 ```bash
-python scripts/json_convert.py list.json to-object -k id -o out.json
+python <skill_dir>/scripts/json_convert.py list.json to-object -k id -o out.json
 ```
 
 **输出**：

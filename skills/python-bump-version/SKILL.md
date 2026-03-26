@@ -32,6 +32,10 @@ description: Bumps Python package version in setup.py, setup.cfg, or pyproject.t
 
 版本格式假定为 `x.y.z`（x、y、z 为数字）；若为 `x.y` 则按 `x.y.0` 处理，bump 后补齐。
 
+## 路径约定
+
+本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/bump_version.py`。
+
 ## 执行步骤
 
 ### 1. pyproject.toml
@@ -88,7 +92,7 @@ setup(..., version='1.2.3', ...)
 若项目结构复杂或需批量处理，可执行技能目录下的脚本：
 
 ```bash
-python scripts/bump_version.py <项目根目录> [patch|minor|major]
+python <skill_dir>/scripts/bump_version.py <项目根目录> [patch|minor|major]
 ```
 
 **参数**：
@@ -106,11 +110,11 @@ python scripts/bump_version.py <项目根目录> [patch|minor|major]
 **示例**（从技能目录执行，或传入脚本绝对路径）：
 
 ```bash
-# 在待 bump 的项目根目录执行（脚本用绝对路径）
-python ~/.cursor/skills/backend-skills/skills/python-bump-version/scripts/bump_version.py . patch
+# 在待 bump 的项目根目录执行
+python <skill_dir>/scripts/bump_version.py . patch
 
-# 或先 cd 到技能目录，再指定项目路径
-cd ~/.cursor/skills/backend-skills/skills/python-bump-version
+# 或先进入 skill 目录再执行
+cd <skill_dir>
 python scripts/bump_version.py /path/to/my-project minor
 ```
 

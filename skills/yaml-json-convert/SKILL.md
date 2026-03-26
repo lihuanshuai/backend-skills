@@ -7,16 +7,20 @@ description: Converts between YAML and JSON using a script. Supports YAML→JSON
 
 通过脚本实现 YAML 与 JSON 的双向转换，支持将指定字段转为指定类型（如 int）。需安装 PyYAML（见依赖）。
 
+## 路径约定
+
+本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/yaml_json_convert.py`、`<skill_dir>/scripts/requirements.txt`。
+
 ## 使用方式
 
-用脚本 `scripts/yaml_json_convert.py`，子命令 `to-json` / `to-yaml`：
+用脚本 `<skill_dir>/scripts/yaml_json_convert.py`，子命令 `to-json` / `to-yaml`：
 
 ```bash
 # YAML → JSON
-python scripts/yaml_json_convert.py <输入文件> to-json [-o 输出.json] [--indent N] [-t 字段类型]
+python <skill_dir>/scripts/yaml_json_convert.py <输入文件> to-json [-o 输出.json] [--indent N] [-t 字段类型]
 
 # JSON → YAML
-python scripts/yaml_json_convert.py <输入文件> to-yaml [-o 输出.yaml] [-t 字段类型]
+python <skill_dir>/scripts/yaml_json_convert.py <输入文件> to-yaml [-o 输出.yaml] [-t 字段类型]
 ```
 
 - **必选**：输入文件路径、子命令 `to-json` 或 `to-yaml`。
@@ -26,10 +30,10 @@ python scripts/yaml_json_convert.py <输入文件> to-yaml [-o 输出.yaml] [-t 
 
 ## 依赖
 
-本技能脚本依赖 PyYAML，在技能目录下用 `requirements.txt` 声明。安装：
+本技能脚本依赖 PyYAML，在技能目录下用 `<skill_dir>/scripts/requirements.txt` 声明。安装：
 
 ```bash
-cd skills/yaml-json-convert && pip install -r requirements.txt
+pip install -r <skill_dir>/scripts/requirements.txt
 ```
 
 ## 示例
@@ -37,19 +41,19 @@ cd skills/yaml-json-convert && pip install -r requirements.txt
 **YAML → JSON**
 
 ```bash
-python scripts/yaml_json_convert.py config.yaml to-json -o config.json
+python <skill_dir>/scripts/yaml_json_convert.py config.yaml to-json -o config.json
 ```
 
 **JSON → YAML**
 
 ```bash
-python scripts/yaml_json_convert.py data.json to-yaml -o data.yaml
+python <skill_dir>/scripts/yaml_json_convert.py data.json to-yaml -o data.yaml
 ```
 
 **指定字段类型**（例如将 `group_id` 转为 int 再输出）：
 
 ```bash
-python scripts/yaml_json_convert.py data.json to-yaml -t "group_id:int" -o data.yaml
+python <skill_dir>/scripts/yaml_json_convert.py data.json to-yaml -t "group_id:int" -o data.yaml
 ```
 
 输出到 stdout 时省略 `-o` 即可。
