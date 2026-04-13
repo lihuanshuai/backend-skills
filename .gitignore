@@ -201,10 +201,6 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-# code-workspace-index: 本地生成的 workspace 索引（勿提交）
-skills/code-workspace-index/workspace-index.local.yaml
-skills/code-workspace-index/workspace-index.local.json
-
 # Marimo
 marimo/_static/
 marimo/_lsp/
