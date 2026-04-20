@@ -30,6 +30,12 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r sc
 
 ## 技能列表
 
+### 项目维护
+
+| 技能目录 | 说明 |
+|----------|------|
+| [skills/backend-skill-project-conventions/](skills/backend-skill-project-conventions/) | 维护 backend-skills 的项目约束，统一 frontmatter、路径引用、依赖声明与 README 技能列表同步规则 |
+
 ### 代码规范与工具
 
 | 技能目录 | 说明 |
@@ -46,6 +52,12 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r sc
 | [skills/yaml-json-convert/](skills/yaml-json-convert/) | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
 | [skills/json-object-array-convert/](skills/json-object-array-convert/) | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
 
+### 网页抓取
+
+| 技能目录 | 说明 |
+|----------|------|
+| [skills/crawl4ai-web-scraping/](skills/crawl4ai-web-scraping/) | 使用 Crawl4AI 抓取网页并保存为 Markdown，适用于 URL 转 Markdown 或批量抓取导出 |
+
 ### 版本与依赖
 
 | 技能目录 | 说明 |
@@ -58,3 +70,4 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r sc
 | 技能目录 | 说明 |
 |----------|------|
 | [skills/plan-and-execute/](skills/plan-and-execute/) | 通用的「先规划、再确认、再执行」流程，适用于复杂产品需求、重构、迁移、拆分大文件等分步任务 |
+| [skills/git-commit-push/](skills/git-commit-push/) | 执行 Git 提交、rebase --onto 与推送的标准流程，包含 staged 限制、pre-commit 约束与冲突处理 |
