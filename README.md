@@ -40,6 +40,7 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r sc
 
 | 技能目录 | 说明 |
 |----------|------|
+| [skills/python-code-style-guide/](skills/python-code-style-guide/) | Python 通用代码风格规范，覆盖局部 import 约束、变量命名、类型注释与类型注解实践，适用于跨后端仓库统一代码约束 |
 | [skills/replace-black-with-ruff/](skills/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
 | [skills/fix-with-pre-commit/](skills/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
 | [skills/com2ann-type-comment-to-hint/](skills/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
