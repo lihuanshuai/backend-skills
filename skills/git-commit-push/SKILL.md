@@ -68,4 +68,4 @@ metadata:
 
 - 提交说明必须使用中文。
 - 禁止 `git add .`、`--no-verify`、`pre-commit run --all-files`。
-- 严禁将未跟踪文件加入 stage（只允许提交已跟踪文件的修改）。
+- 允许提交用户已暂存的改动；但 Agent 不得主动将未跟踪文件加入 stage。
