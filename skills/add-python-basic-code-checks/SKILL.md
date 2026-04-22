@@ -1,5 +1,5 @@
 ---
-name: python-basic-code-check-template
+name: add-python-basic-code-checks
 description: 添加 Python 基础代码检查配置模板 including ruff mypy pre-commit 与 pyproject.toml 和 .pre-commit-config.yaml 示例。Use when 需要快速初始化或统一 Python 项目的基础代码质量检查。
 ---
 
