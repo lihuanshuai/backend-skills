@@ -36,7 +36,7 @@ description: Provides a shared Python code style guide for common backend projec
 
 - **Import**：默认顶层；分组顺序标准库 → 三方 → 项目内，排序以项目 ruff/isort 为准；禁止无用 import 与 `from x import *`。局部 import 仅用于循环依赖 / 冷启动隔离 / 可选依赖，须注释且勿放循环内。类型环优先 `TYPE_CHECKING`。详见 `<skill_dir>/references/import-guide.md`。
 - **命名**：`snake_case` / `PascalCase` / `UPPER_SNAKE_CASE`；私有 `_` 前缀；布尔 `is_`/`has_` 等。详见 `<skill_dir>/references/naming.md`。
-- **类型**：先确认 Python 版本；新代码优先函数注解；type comment 仅在兼容需要时使用。详见 `<skill_dir>/references/typing.md`。
+- **类型**：先确认 Python 版本；新代码优先函数注解；type comment 仅在兼容需要时使用。`TypedDict` 实例优先 `MyTypedDict(**args)` 构造，少用裸 `{...}` 依赖推断。详见 `<skill_dir>/references/typing.md`。
 - **函数**：单一职责、参数不宜过多、具体异常、guard clause。详见 `<skill_dir>/references/functions-and-structure.md`。
 - **可读性**：注释写「为什么」；中文 docstring/注释（除非仓库另有约定）。详见 `<skill_dir>/references/readability.md`。
 - **性能**：慢查询与内存。详见 `<skill_dir>/references/performance.md`。
