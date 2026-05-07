@@ -5,7 +5,16 @@ description: Provides a shared Python code style guide for common backend projec
 
 # Python 代码风格规范（通用后端项目）
 
-跨仓库共识基线；若某仓库已有更严约束，以仓库本地规范优先。
+ 跨仓库共识基线；若某仓库已有更严约束，以仓库本地规范优先。
+ 
+ ## 总则
+ 
+ 偏谨慎而非速度；简单任务可酌情放宽。
+ 
+ - **先思考再编码**：不默认假设，多种解读应呈现而非暗选；不确定就停下来问清楚。
+ - **简洁优先**：只写解决问题所需的最少代码，不加未请求的功能/抽象/配置；能 50 行就不写 200 行。
+ - **精准修改**：只动必须改的，不顺手"优化"相邻代码或格式；自己产生的孤立代码必须清除，预存的死代码只提不删。
+ - **目标驱动**：把任务转化为可验证的成功标准，多步任务先列计划再逐步验证闭环；每行改动应可追溯到用户需求。
 
 ## 路径约定
 
@@ -36,7 +45,7 @@ description: Provides a shared Python code style guide for common backend projec
 
 - **Import**：默认顶层；分组顺序标准库 → 三方 → 项目内，排序以项目 ruff/isort 为准；禁止无用 import 与 `from x import *`。局部 import 仅用于循环依赖 / 冷启动隔离 / 可选依赖，须注释且勿放循环内。类型环优先 `TYPE_CHECKING`。详见 `<skill_dir>/references/import-guide.md`。
 - **命名**：`snake_case` / `PascalCase` / `UPPER_SNAKE_CASE`；私有 `_` 前缀；布尔 `is_`/`has_` 等。详见 `<skill_dir>/references/naming.md`。
-- **类型**：先确认 Python 版本；新代码优先函数注解；type comment 仅在兼容需要时使用。`TypedDict` 实例优先 `MyTypedDict(**args)` 构造，少用裸 `{...}` 依赖推断。详见 `<skill_dir>/references/typing.md`。
+ - **类型**：先确认 Python 版本；新代码优先函数注解；type comment 仅在兼容需要时使用。**有固定键的字典必须用 `TypedDict` 替代 `dict[str, Any]`**；`TypedDict` 实例优先 `MyTypedDict(**args)` 构造，少用裸 `{...}` 依赖推断。详见 `<skill_dir>/references/typing.md`。
 - **函数**：单一职责、参数不宜过多、具体异常、guard clause。详见 `<skill_dir>/references/functions-and-structure.md`。
 - **可读性**：注释写「为什么」；中文 docstring/注释（除非仓库另有约定）。详见 `<skill_dir>/references/readability.md`。
 - **性能**：慢查询与内存。详见 `<skill_dir>/references/performance.md`。
@@ -45,4 +54,4 @@ description: Provides a shared Python code style guide for common backend projec
 
 ## 注意事项
 
-- 若用户明确要求保留旧风格（例如 Python 2/3 兼容 type comment），按用户要求执行并说明取舍
+ - 若用户明确要求保留旧风格（例如 Python 2/3 兼容 type comment），按用户要求执行并说明取舍

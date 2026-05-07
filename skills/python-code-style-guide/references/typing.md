@@ -10,7 +10,17 @@
 
 - 新增 Python 3 代码优先写函数注解（参数与返回值）
 - 公共函数、跨模块接口、复杂返回结构必须显式标注类型
-- 容器类型优先使用内建泛型（如 `list[str]`、`dict[str, Any]`，按项目 Python 版本可用性调整）
+ - 容器类型优先使用内建泛型（如 `list[str]`、`dict[str, Any]`，按项目 Python 版本可用性调整）
+ 
+ ### TypedDict 优先于 dict[str, Any]
+ 
+ **核心规则：有固定键集合的字典结构，必须用 `TypedDict` 替代 `dict[str, Any]`。**
+ 
+ - `dict[str, Any]` 丢失键名与可空性信息，类型检查器无法校验调用点是否遗漏或误传字段，属于类型安全最弱的写法
+ - `TypedDict` 在定义处约束键名、类型与可空性（`total`/`NotRequired`），让调用方得到明确的字段校验与 IDE 补全
+ - 仅在键集合**真正动态**时才允许 `dict[str, Any]`：如任意键的映射缓存、JSON 原始透传、protobuf 转中间层等场景；即使此类场景也应评估是否有更具体的类型替代
+ - 已有旧代码返回 `dict[str, Any]` 但实际键固定时，新建/重构时应逐步迁移为 `TypedDict`
+ - 当「容器」是具有固定键的字典时，TypedDict 优先规则覆盖容器类型的默认泛型写法
 
 ## 3.2 Type Comment 使用边界
 
@@ -33,9 +43,23 @@
 ## 示例
 
 ```python
+# ❌ 避免：返回 dict[str, Any] — 丢失键名信息，调用方无法得到字段校验
 from typing import Any
 
-def fetch_member(member_id: int, fields: list[str] | None = None) -> dict[str, Any] | None:
+def fetch_member(member_id: int) -> dict[str, Any] | None:
+    ...
+```
+
+```python
+# ✅ 推荐：返回 TypedDict — 键名与可空性均可在定义处约束
+from typing import TypedDict
+
+class MemberResult(TypedDict):
+    id: int
+    name: str
+    bio: str | None  # 可空字段显式标注
+
+def fetch_member(member_id: int) -> MemberResult | None:
     ...
 ```
 
