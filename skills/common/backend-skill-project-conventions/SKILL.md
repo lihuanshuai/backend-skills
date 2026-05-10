@@ -35,13 +35,21 @@ backend-skills 是面向后端开发的 Cursor Agent 技能集合。每个技能
 .gitignore
 AGENTS.md          # 简短入口，详细约定见本技能
 README.md          # 安装方式、技能列表、使用说明
-skills/            # 技能目录，每个技能一个子目录
-├── <skill-name>/  # 技能名即目录名，建议 kebab-case
-│   ├── SKILL.md   # 必选，技能说明与流程
-│   ├── scripts/   # 可选，该技能用到的可执行脚本与脚本依赖
-│   │   ├── *.py
-│   │   └── requirements.txt  # 可选，脚本依赖（统一放在 scripts/ 下）
-└── ...
+skills/            # 技能目录，按类别分子目录
+├── python/        # Python 相关技能
+│   ├── <skill-name>/  # 技能名即目录名，建议 kebab-case
+│   │   ├── SKILL.md   # 必选，技能说明与流程
+│   │   ├── scripts/   # 可选，该技能用到的可执行脚本与脚本依赖
+│   │   │   ├── *.py
+│   │   │   └── requirements.txt  # 可选，脚本依赖（统一放在 scripts/ 下）
+│   └── ...
+├── common/        # 通用技能
+│   ├── <skill-name>/
+│   │   ├── SKILL.md
+│   │   ├── scripts/   # 可选
+│   │   │   ├── *.py
+│   │   │   └── requirements.txt
+│   └── ...
 ```
 
 ## 技能规范
@@ -64,7 +72,7 @@ skills/            # 技能目录，每个技能一个子目录
 - 路径先声明 `<skill_dir>`，正文中的文件路径均相对该约定
 - 无写死的用户目录、Agent 专属 skills 路径或绝对路径示例
 - 有脚本时存在 `<skill_dir>/scripts/`，且 SKILL 中说明调用方式与参数
-- README 技能列表与仓库内 `skills/*/` 一致
+- README 技能列表与仓库内 `skills/python/*/` 及 `skills/common/*/` 一致
 
 ## 注意事项
 

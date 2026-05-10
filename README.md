@@ -19,12 +19,12 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 # 若已有目录，可进入后 git pull 更新
 ```
 
-完成后技能位于 `~/.cursor/skills/backend-skills/skills/`，Cursor Agent 会在「Agent Skills」中发现并读取各技能目录下的 `SKILL.md`。
+完成后技能位于 `~/.cursor/skills/backend-skills/skills/`（含 `python/` 和 `common/` 两个子目录），Cursor Agent 会在「Agent Skills」中发现并读取各技能目录下的 `SKILL.md`。
 
 使用带脚本的技能（data-format-convert）时，若需 YAML 输出，在技能目录下安装 `scripts/requirements.txt` 依赖即可：
 
 ```bash
-cd ~/.cursor/skills/backend-skills/skills/data-format-convert && pip install -r scripts/requirements.txt
+cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip install -r scripts/requirements.txt
 ```
 
 ## 技能列表
@@ -33,34 +33,34 @@ cd ~/.cursor/skills/backend-skills/skills/data-format-convert && pip install -r 
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/backend-skill-project-conventions/](skills/backend-skill-project-conventions/) | 维护 backend-skills 的项目约束，统一 frontmatter、路径引用、依赖声明与 README 技能列表同步规则 |
+| [skills/common/backend-skill-project-conventions/](skills/common/backend-skill-project-conventions/) | 维护 backend-skills 的项目约束，统一 frontmatter、路径引用、依赖声明与 README 技能列表同步规则 |
 
 ### 代码规范与工具
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/python-code-style-guide/](skills/python-code-style-guide/) | Python 通用代码风格规范，覆盖局部 import 约束、变量命名、类型注释与类型注解实践，适用于跨后端仓库统一代码约束 |
-| [skills/replace-black-with-ruff/](skills/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
-| [skills/fix-with-pre-commit/](skills/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
-| [skills/com2ann-type-comment-to-hint/](skills/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
-| [skills/add-python-basic-code-checks/](skills/add-python-basic-code-checks/) | 添加 Python 基础代码检查配置模板 including ruff mypy pre-commit 与 pyproject.toml 和 .pre-commit-config.yaml 示例 |
+| [skills/python/python-code-style-guide/](skills/python/python-code-style-guide/) | Python 通用代码风格规范，覆盖局部 import 约束、变量命名、类型注释与类型注解实践，适用于跨后端仓库统一代码约束 |
+| [skills/python/replace-black-with-ruff/](skills/python/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
+| [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
+| [skills/python/com2ann-type-comment-to-hint/](skills/python/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
+| [skills/python/add-python-basic-code-checks/](skills/python/add-python-basic-code-checks/) | 添加 Python 基础代码检查配置模板 including ruff mypy pre-commit 与 pyproject.toml 和 .pre-commit-config.yaml 示例 |
 
 ### 数据转换
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/data-format-convert/](skills/data-format-convert/) | 数据格式转换与提取，覆盖 CSV 提取导出、YAML/JSON 互转、JSON 对象/数组互转，按需求路由到具体子任务 |
+| [skills/common/data-format-convert/](skills/common/data-format-convert/) | 数据格式转换与提取，覆盖 CSV 提取导出、YAML/JSON 互转、JSON 对象/数组互转，按需求路由到具体子任务 |
 
 ### 版本与依赖
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/python-bump-version/](skills/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
-| [skills/python-upgrade-deps/](skills/python-upgrade-deps/) | 升级依赖包版本，支持 pip-req.txt、requirements.txt、pyproject.toml |
+| [skills/python/python-bump-version/](skills/python/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
+| [skills/python/python-upgrade-deps/](skills/python/python-upgrade-deps/) | 升级依赖包版本，支持 pip-req.txt、requirements.txt、pyproject.toml |
 
 ### 流程与规划
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/plan-and-execute/](skills/plan-and-execute/) | 通用的「先规划、再确认、再执行」流程，适用于复杂产品需求、重构、迁移、拆分大文件等分步任务 |
-| [skills/git-commit-push/](skills/git-commit-push/) | 执行 Git 提交、rebase --onto 与推送的标准流程，包含 staged 限制、pre-commit 约束与冲突处理 |
+| [skills/common/plan-and-execute/](skills/common/plan-and-execute/) | 通用的「先规划、再确认、再执行」流程，适用于复杂产品需求、重构、迁移、拆分大文件等分步任务 |
+| [skills/common/git-commit-push/](skills/common/git-commit-push/) | 执行 Git 提交、rebase --onto 与推送的标准流程，包含 staged 限制、pre-commit 约束与冲突处理 |
