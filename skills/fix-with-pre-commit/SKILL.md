@@ -34,8 +34,8 @@ description: 检查并自动修复 pre-commit 报错。在需要跑 pre-commit�
 
 1. **分析**：从报错日志中识别受影响的文件、行号及具体规则（如 ruff 规则码、mypy 错误类型）。
 2. **修复**：
-   - 优先处理可自动修复项：格式化、移除多余 coding 声明、`dict()` 改字面量、简单 import 调整等；必要时再次运行 `pre-commit run`（仅针对刚改动的文件）以确认。
-   - 对需人工判断的（如逻辑错误、复杂类型、业务相关）不做盲目自动改。
+   - 优先处理可自动修复项（见 `<skill_dir>/references/` 下各工具修复表）；必要时再次运行 `pre-commit run`（仅针对刚改动的文件）以确认。
+   - 对需人工判断的（见各参考文档中「需人工判断」部分）不做盲目自动改。
 3. **验证**：修复后对受影响文件执行 `pre-commit run`（或 `pre-commit run --files <受影响文件>`）。
 4. **迭代**：重复分析→修复→验证，直到全部通过或达到终止条件。
 
@@ -50,9 +50,16 @@ description: 检查并自动修复 pre-commit 报错。在需要跑 pre-commit�
 
 - 修复时尽量保持项目既有风格，符合项目 `AGENTS.md` 或等价文档中的编码标准。
 - 若某次修复引入新的 linter 报错，应一并处理或回退并记录。
-- 常见可自动或半自动处理的：ruff 的 UP009、C408、SIM102、部分 UP004；mypy 的简单类型注解补充。常见需人工的：DTZ 时区相关、复杂 union-attr、业务逻辑相关异常捕获等。
+- 具体工具的修复方式见 `<skill_dir>/references/` 下各参考文档。
+
+## References
+
+修复参考文档位于 `<skill_dir>/references/`，按工具分文件：
+
+- **ruff**：`<skill_dir>/references/ruff.md` — 可自动/半自动修复与需人工判断的规则码表
+- **mypy**：`<skill_dir>/references/mypy.md` — 可自动/半自动修复与需人工判断的错误类型表
 
 ## 注意事项
 
 - 对 `ruff.out` 等大文件：先从中提取**唯一文件路径**（如通过 `--> <path>:行:列` 模式），再只对这些路径执行 `pre-commit run --files ...`，避免全仓库全量跑导致超时或无关改动。
-- 若项目有 `update-files-in-script` 等 hook 会修改 `tools/type-check.sh` 等配置：该 hook 的「修改」属于预期行为，其失败需单独看是列表未合并成功还是其它原因，不一定需要“修代码”才能通过。
+- 部分 hook 会自动修改文件（属于预期行为），其报错不一定代表存在需要修复的代码，应先区分是 hook 自身行为导致的变更还是真正的代码问题。
