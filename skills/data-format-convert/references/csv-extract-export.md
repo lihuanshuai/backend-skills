@@ -1,15 +1,6 @@
----
-name: csv-extract-export
-description: Extracts specified CSV columns into a list of objects and exports as YAML or JSON. Field mapping uses "col:key" or "col:key:type" (types int/float/bool/str). Use when converting CSV to YAML/JSON, extracting columns to structured data, or when the user asks to export CSV fields as YAML or JSON.
----
-
 # CSV 提取导出为 YAML / JSON
 
-从 CSV 中按用户指定的列提取数据，组成对象列表并导出为 **YAML** 或 **JSON**。列名与输出键、类型的对应由用户提供。
-
-## 路径约定
-
-本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/csv_export.py`、`<skill_dir>/scripts/requirements.txt`。
+从 CSV 中按用户指定的列提取数据，组成对象列表并导出为 YAML 或 JSON。列名与输出键、类型的对应由用户提供。
 
 ## 使用方式
 
@@ -30,13 +21,7 @@ python <skill_dir>/scripts/csv_export.py <csv_path> --fields <映射> [--format 
 
 ## 依赖
 
-输出 YAML 时脚本依赖 PyYAML，在技能目录下用 `<skill_dir>/scripts/requirements.txt` 声明。安装：
-
-```bash
-pip install -r <skill_dir>/scripts/requirements.txt
-```
-
-仅输出 JSON 时无需安装。
+输出 YAML 时脚本依赖 PyYAML，在 `<skill_dir>/scripts/requirements.txt` 声明。仅输出 JSON 时无需安装。
 
 ## 示例
 
@@ -72,7 +57,7 @@ python <skill_dir>/scripts/csv_export.py feed_info.csv --fields "小组id:id:int
 
 ## 输出示例
 
-YAML（`--format yaml` 或 `-o out.yaml`）：
+YAML：
 
 ```yaml
 - id: 368401
@@ -81,7 +66,7 @@ YAML（`--format yaml` 或 `-o out.yaml`）：
   horse_name: 奥米伽
 ```
 
-JSON（`--format json` 或 `-o out.json`）：
+JSON：
 
 ```json
 [
@@ -98,10 +83,6 @@ JSON（`--format json` 或 `-o out.json`）：
 
 空单元格在两种格式中均为 `null`。
 
-## 依赖
+## 注意事项
 
-- Python 3.6+
-- **JSON**：仅用标准库 `json`，无额外依赖。
-- **YAML**：需安装 PyYAML（`pip install pyyaml`）。仅在选择 YAML 输出时才需要。
-
-CSV 默认按 `utf-8-sig` 读取（自动去除 BOM，适合 Excel 导出的 CSV）。
+- CSV 默认按 `utf-8-sig` 读取（自动去除 BOM，适合 Excel 导出的 CSV）。

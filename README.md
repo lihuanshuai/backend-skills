@@ -4,7 +4,7 @@
 
 ## 依赖
 
-- **Python**：带脚本的技能（csv-extract-export、yaml-json-convert、json-object-array-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见各技能目录下的 `scripts/requirements.txt`）。json-object-array-convert 仅用标准库，无额外依赖。
+- **Python**：带脚本的技能（data-format-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见技能目录下的 `scripts/requirements.txt`）。JSON 对象/数组互转仅用标准库，无额外依赖。
 - **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 - **com2ann**：`com2ann-type-comment-to-hint` 技能需 Python 3.8+ 并安装 `pip install com2ann`。
 
@@ -21,11 +21,10 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 
 完成后技能位于 `~/.cursor/skills/backend-skills/skills/`，Cursor Agent 会在「Agent Skills」中发现并读取各技能目录下的 `SKILL.md`。
 
-使用带脚本的技能（如 csv-extract-export、yaml-json-convert）时，若需 YAML 输出，在对应技能目录下安装 `scripts/requirements.txt` 依赖即可：
+使用带脚本的技能（data-format-convert）时，若需 YAML 输出，在技能目录下安装 `scripts/requirements.txt` 依赖即可：
 
 ```bash
-cd ~/.cursor/skills/backend-skills/skills/csv-extract-export && pip install -r scripts/requirements.txt
-cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r scripts/requirements.txt
+cd ~/.cursor/skills/backend-skills/skills/data-format-convert && pip install -r scripts/requirements.txt
 ```
 
 ## 技能列表
@@ -50,9 +49,7 @@ cd ~/.cursor/skills/backend-skills/skills/yaml-json-convert && pip install -r sc
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/csv-extract-export/](skills/csv-extract-export/) | 从 CSV 按列提取并导出为 YAML/JSON |
-| [skills/yaml-json-convert/](skills/yaml-json-convert/) | YAML 与 JSON 互转，支持指定字段类型（如 int），脚本实现，依赖 PyYAML |
-| [skills/json-object-array-convert/](skills/json-object-array-convert/) | JSON 对象与数组互转（对象→数组、数组→对象），需提供 key 字段名，仅用标准库 |
+| [skills/data-format-convert/](skills/data-format-convert/) | 数据格式转换与提取，覆盖 CSV 提取导出、YAML/JSON 互转、JSON 对象/数组互转，按需求路由到具体子任务 |
 
 ### 版本与依赖
 

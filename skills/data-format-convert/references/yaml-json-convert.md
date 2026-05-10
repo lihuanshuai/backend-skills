@@ -1,15 +1,6 @@
----
-name: yaml-json-convert
-description: Converts between YAML and JSON using a script. Supports YAML→JSON (to-json) and JSON→YAML (to-yaml), and optional field type coercion (e.g. field to int). Use when converting YAML to JSON, JSON to YAML, or when the user asks for "yaml json 互转", "指定字段转 int", "yaml 转 json", "json 转 yaml".
----
-
 # YAML 与 JSON 互转
 
-通过脚本实现 YAML 与 JSON 的双向转换，支持将指定字段转为指定类型（如 int）。需安装 PyYAML（见依赖）。
-
-## 路径约定
-
-本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/yaml_json_convert.py`、`<skill_dir>/scripts/requirements.txt`。
+通过脚本实现 YAML 与 JSON 的双向转换，支持将指定字段转为指定类型（如 int）。需安装 PyYAML。
 
 ## 使用方式
 
@@ -30,7 +21,7 @@ python <skill_dir>/scripts/yaml_json_convert.py <输入文件> to-yaml [-o 输�
 
 ## 依赖
 
-本技能脚本依赖 PyYAML，在技能目录下用 `<skill_dir>/scripts/requirements.txt` 声明。安装：
+脚本依赖 PyYAML，在 `<skill_dir>/scripts/requirements.txt` 声明。安装：
 
 ```bash
 pip install -r <skill_dir>/scripts/requirements.txt

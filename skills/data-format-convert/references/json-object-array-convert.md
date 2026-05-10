@@ -1,25 +1,9 @@
----
-name: json-object-array-convert
-description: Converts between JSON object and array using a user-specified key field. Object→array means that each key becomes a field in the item; array→object means that one field's value becomes the object key. Use when converting JSON object to array, array to object, or when the user asks for "对象转数组", "数组转对象", "key 转成字段".
----
-
 # JSON 对象与数组互转
 
-支持两个方向，均需提供 **key 对应字段名**：
+支持两个方向，均需提供 key 对应字段名：
 
 1. **对象 → 数组**：每个 key 作为一项，放入指定字段，value 与该字段合并为同一元素。
 2. **数组 → 对象**：用每个元素中指定字段的值作为对象的 key，该字段从 value 中移除。
-
-## 用户需提供
-
-1. **JSON 文件路径**（或要转换的 JSON）
-2. **key 字段名**：`id`、`key`、`name` 等
-   - 对象→数组：该字段用于存放「原对象的 key」
-   - 数组→对象：该字段的值作为「生成对象的 key」
-
-## 路径约定
-
-本文中的 `<skill_dir>` 表示“当前 skill 目录”（即本 `SKILL.md` 所在目录）。后续路径均基于该约定展开，例如 `<skill_dir>/scripts/json_convert.py`。
 
 ## 使用方式
 
@@ -49,6 +33,13 @@ python <skill_dir>/scripts/json_convert.py <输入.json> to-object --key-field <
 
 - 输入：`[ { "<key字段名>": "k1", ...rest1 }, { "<key字段名>": "k2", ...rest2 } ]`
 - 输出：`{ "k1": rest1, "k2": rest2 }`（key 字段会从 value 中移除，避免重复）
+
+## 用户需提供
+
+1. **JSON 文件路径**（或要转换的 JSON）
+2. **key 字段名**：`id`、`key`、`name` 等
+   - 对象→数组：该字段用于存放「原对象的 key」
+   - 数组→对象：该字段的值作为「生成对象的 key」
 
 ## 示例
 
