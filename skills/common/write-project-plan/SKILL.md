@@ -26,7 +26,21 @@ description: 编写详尽的实施计划，适用于拿到需求/规格后、动
 - 变动相关的文件应放在一起，按职责拆分而非按技术层拆分
 - 在既有代码库中遵循已有模式；若修改的文件已臃肿，可在计划中包含拆分步骤
 
-### 3. 任务拆解
+### 3. 需求理解与确认
+
+**编写计划前，必须充分理解需求：**
+
+- 阅读需求文档、相关代码、现有实现
+- 识别需求中的不确定点、歧义或多重选择
+- **不确定处必须向用户澄清，由用户决策** —— 禁止凭假设替用户选择
+
+**常见需澄清的场景：**
+- 多个可行方案（如技术选型、实现策略）
+- 边界条件未定义（如空值处理、异常场景）
+- 与现有系统的冲突或兼容性问题
+- 需求优先级与范围取舍
+
+### 4. 任务拆解
 
 **每个步骤是一个原子动作（2-5 分钟）：**
 
@@ -36,80 +50,21 @@ description: 编写详尽的实施计划，适用于拿到需求/规格后、动
 - "运行测试确认通过" — 一个步骤
 - "提交" — 一个步骤
 
-### 4. 编写计划文档
+### 5. 编写计划文档
 
 计划保存至 `docs/plans/YYYY-MM-DD-<feature-name>.md`（用户偏好可覆盖此默认路径）。
 
-参考样板（位于 `<skill_dir>/references/`）：
-- **功能需求**：`<skill_dir>/references/feature-implementation-template.md` — 明确需求 → API 草稿 → mock → 分步实现 → 联调修复，以 PR 合并为完成标志
-- **代码迁移**：`<skill_dir>/references/code-migration-template.md` — 逐步实现并 commit，完成后 cherry-pick 逐阶段提交 PR
+常见计划类型：
+- **功能需求**：明确需求 → API 草稿 → mock → 分步实现 → 联调修复
+- **代码迁移**：
+  - 策略 A（先改后上）：依次修改并 commit，全部完成后 cherry-pick 逐阶段提交 PR —— 适合长时间运行、需保持分支稳定的迁移
+  - 策略 B（逐步改上）：每完成一个子任务即提交 PR 并上线 —— 更可控，风险分散
+- **RPC 接口变更**：涉及多项目协作（如服务端修改 PIDL/Thrift + 客户端升级依赖）—— 创建计划前必须理解所有涉及项目的代码结构；每个步骤需明确标注执行项目（如「在 service 项目...」「在 client 项目...」），并考虑版本兼容性
 
-**计划文档头部（必须）：**
-
-```markdown
-# [功能名称] 实施计划
-
-**目标：** [一句话描述最终产出]
-
-**架构：** [2-3 句说明实现思路]
-
-**技术栈：** [关键技术/库]
-
----
-```
-
-**每个任务格式：**
-
-```markdown
-### 任务 N: [组件名称]
-
-**状态：** 未开始
-
-**完成标志：** [具体验证条件，如 "PR 合并到 main"、"全量测试通过"]
-
-**文件：**
-- 创建: `exact/path/to/file.py`
-- 修改: `exact/path/to/existing.py:123-145`
-- 测试: `tests/exact/path/to/test.py`
-
-- [ ] **步骤 1: 写失败测试**
-
-\`\`\`python
-def test_specific_behavior():
-    result = function(input)
-    assert result == expected
-\`\`\`
-
-- [ ] **步骤 2: 运行测试确认失败**
-
-运行: `pytest tests/path/test.py::test_name -v`
-预期: FAIL，报错 "function not defined"
-
-- [ ] **步骤 3: 写最小实现**
-
-\`\`\`python
-def function(input):
-    return expected
-\`\`\`
-
-- [ ] **步骤 4: 运行测试确认通过**
-
-运行: `pytest tests/path/test.py::test_name -v`
-预期: PASS
-
-- [ ] **步骤 5: 提交**
-
-\`\`\`bash
-git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature"
-\`\`\`
-```
-
-**状态机制：**
-
-- **任务级状态**（`**状态：**` 行）：`未开始` → `进行中` → `已完成`，执行时由 `execute-project-plan` 技能更新
-- **步骤级状态**（checkbox）：`- [ ]` → `- [x]`，每步验证通过后勾选
-- **完成标志**：每个任务必须声明具体的完成条件，禁止模糊描述（如 "功能实现"），必须可客观判定（如 "PR owner/repo#123 合并到 main"、"pytest tests/ 全量通过"）
+计划文档结构详见 `<skill_dir>/references/plan-document-structure.md`，包含：
+- 文档头部格式（目标、架构、技术栈）
+- 任务格式（状态、完成标志、文件列表、步骤）
+- 状态机制说明
 
 ### 5. 零占位符原则
 
