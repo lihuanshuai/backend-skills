@@ -58,7 +58,8 @@ metadata:
     - `tree_match`：当前分支存在某个祖先提交的文件树已被目标分支吸收（常见于 squash merge），优先以该点为 base，避免重复重放已吸收改动
     - `merge_base_fallback`：未找到树匹配时，回退标准 `merge-base` 行为
   - 若冲突：仅允许 `git add --update` 或显式冲突文件路径，之后必须 `git rebase --continue`
-  - 冲突处理中禁止额外新建 commit
+  - **冲突处理中禁止额外新建 commit**
+  - **冲突处理中禁止新建分支**
 - 推送：
   - 默认 `git push <origin_remote> <current_branch>`
   - rebase 后需覆盖远程时，使用 `--force-with-lease`
@@ -66,6 +67,13 @@ metadata:
 
 ## 约束总结
 
-- 提交说明必须使用中文。
-- 禁止 `git add .`、`--no-verify`、`pre-commit run --all-files`。
-- 允许提交用户已暂存的改动；但 Agent 不得主动将未跟踪文件加入 stage。
+### 🚫 禁止项（红线）
+
+| 禁止行为 | 说明 |
+|---------|------|
+| **新建分支** | 严禁 `git switch -c` / `git checkout -b` |
+| **`git add .`** | 仅允许 `--update`，避免纳入未跟踪文件 |
+| **`--no-verify`** | 必须执行 pre-commit 检查 |
+| **`pre-commit run --all-files`** | 仅对 staged 文件执行 |
+| **主动暂存 untracked 文件** | Agent 不得主动执行 |
+| **冲突时新建 commit** | 仅允许 `git rebase --continue` |
