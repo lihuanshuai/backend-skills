@@ -57,9 +57,11 @@ metadata:
   - 语义说明：
     - `tree_match`：当前分支存在某个祖先提交的文件树已被目标分支吸收（常见于 squash merge），优先以该点为 base，避免重复重放已吸收改动
     - `merge_base_fallback`：未找到树匹配时，回退标准 `merge-base` 行为
-  - 若冲突：仅允许 `git add --update` 或显式冲突文件路径，之后必须 `git rebase --continue`
-  - **冲突处理中禁止额外新建 commit**
-  - **冲突处理中禁止新建分支**
+  - **若发生冲突：禁止自动处理，必须立即暂停并交由用户手动处理**
+  - 冲突处理原则：
+    - Agent **严禁**自动处理冲突（包括编辑冲突文件、执行 `git add` 或 `git rebase --continue`）
+    - 必须向用户清晰报告冲突文件列表，等待用户手动解决
+    - 用户解决冲突并执行 `git rebase --continue` 后，Agent 可继续后续推送步骤
 - 推送：
   - 默认 `git push <origin_remote> <current_branch>`
   - rebase 后需覆盖远程时，使用 `--force-with-lease`
@@ -76,4 +78,4 @@ metadata:
 | **`--no-verify`** | 必须执行 pre-commit 检查 |
 | **`pre-commit run --all-files`** | 仅对 staged 文件执行 |
 | **主动暂存 untracked 文件** | Agent 不得主动执行 |
-| **冲突时新建 commit** | 仅允许 `git rebase --continue` |
+| **自动处理 rebase 冲突** | **必须交由用户手动处理**，Agent 严禁自动编辑冲突文件或执行 `git add` / `git rebase --continue` |
