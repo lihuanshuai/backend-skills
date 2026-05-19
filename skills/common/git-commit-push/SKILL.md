@@ -14,6 +14,7 @@ metadata:
 
 - 约定 `<skill_dir>` 表示当前 skill 目录（本 `SKILL.md` 所在目录）。
 - 本技能脚本路径：
+  - `<skill_dir>/scripts/commit_rebase_push.py`
   - `<skill_dir>/scripts/select_rebase_base.py`
 
 ## 输入约定
@@ -24,48 +25,26 @@ metadata:
   - `<default_branch>`
   - `<current_branch>`
 
-## 执行步骤
+## 执行方式
 
-### 1. 暂存与 pre-commit
+优先使用聚合脚本一次性串联暂存、提交、选择 rebase base、rebase 与 push，减少 Agent 多次手动执行命令带来的往返与状态遗漏。
 
-- 仅允许 `git add --update`，禁止 `git add .`。
-- 严禁将未跟踪文件加入暂存区（stage）；不得使用任何会纳入 untracked 文件的 add 方式。
-- 若存在 `.pre-commit-config.yaml`：
-  - 禁止 `--no-verify`
-  - 禁止 `pre-commit run --all-files`
-  - 仅对 staged 文件执行 pre-commit（或依赖 commit hook）
-  - 失败时优先尝试修复（可用 `fix-with-pre-commit`）
+```bash
+python3 <skill_dir>/scripts/commit_rebase_push.py \
+  <upstream_remote> \
+  <origin_remote> \
+  <default_branch> \
+  <current_branch> \
+  --message "<中文提交说明>"
+```
 
-### 2. 提交
-
-- 无 staged 改动时：
-  - 必须跳过 commit/push
-  - 明确反馈“无可提交改动，已跳过 commit/push”
-- 有 staged 改动时：
-  - 生成中文提交说明并 `git commit`
-
-### 3. Rebase 与推送
-
-- 同步上游：
-  - 执行脚本选择 rebase base（会自动 `fetch` 并输出 JSON）：
-    - `python3 <skill_dir>/scripts/select_rebase_base.py <upstream_remote> <default_branch>`
-  - 读取返回中的：
-    - `remote_ref`（记为 `R`）
-    - `base_commit`（记为 `BASE`）
-    - `strategy`（`tree_match` 或 `merge_base_fallback`）
-  - 执行：`git rebase --autostash --onto "$R" "$BASE"`
-  - 语义说明：
-    - `tree_match`：当前分支存在某个祖先提交的文件树已被目标分支吸收（常见于 squash merge），优先以该点为 base，避免重复重放已吸收改动
-    - `merge_base_fallback`：未找到树匹配时，回退标准 `merge-base` 行为
-  - **若发生冲突：禁止自动处理，必须立即暂停并交由用户手动处理**
-  - 冲突处理原则：
-    - Agent **严禁**自动处理冲突（包括编辑冲突文件、执行 `git add` 或 `git rebase --continue`）
-    - 必须向用户清晰报告冲突文件列表，等待用户手动解决
-    - 用户解决冲突并执行 `git rebase --continue` 后，Agent 可继续后续推送步骤
-- 推送：
-  - 默认 `git push <origin_remote> <current_branch>`
-  - rebase 后需覆盖远程时，使用 `--force-with-lease`
-  - 未设置上游时可先 `--set-upstream`
+- 脚本只执行 `git add --update`，不会暂存 untracked 文件；若发现 untracked 文件，仅输出 `untracked_ignored` 提醒。
+- 无 staged 改动时，脚本输出 `skip` 并跳过 commit/push。
+- 若存在 `.pre-commit-config.yaml`，脚本默认在 commit 前执行 `pre-commit run --files <staged files>`，不会执行 `--all-files`；确认项目 commit hook 已覆盖检查时，可追加 `--skip-pre-commit` 避免重复执行。
+- 脚本会复用 squash-aware base 选择逻辑，内部完成 `fetch`、`rebase --autostash --onto` 与 push。
+- rebase 后 HEAD 发生变化时，脚本使用 `--force-with-lease` 推送；未设置上游且无需 force 时，脚本使用 `--set-upstream`。
+- 如 rebase 冲突，脚本只输出 `rebase_conflict` 与冲突文件列表后退出；Agent 必须暂停，交由用户手动解决并执行 `git rebase --continue`。
+- 若只需要提交和 rebase、不推送，可追加 `--no-push`。
 
 ## 约束总结
 
