@@ -6,7 +6,6 @@
 
 - **Python**：带脚本的技能（data-format-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见技能目录下的 `scripts/requirements.txt`）。JSON 对象/数组互转仅用标准库，无额外依赖。
 - **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
-- **com2ann**：`com2ann-type-comment-to-hint` 技能需 Python 3.8+ 并安装 `pip install com2ann`。
 
 ## 安装
 
@@ -43,7 +42,6 @@ cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip inst
 | [skills/common/lit-code-style-guide/](skills/common/lit-code-style-guide/) | Lit 前端代码风格与无构建发布规范，覆盖后端模板入口、本地 import map、页面级模块加载、vendor 管理与真实页面验证 |
 | [skills/python/replace-black-with-ruff/](skills/python/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
 | [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
-| [skills/python/com2ann-type-comment-to-hint/](skills/python/com2ann-type-comment-to-hint/) | 使用 com2ann 将 type comment 转为 type hint（函数注解），适用于迁移 Python 2/3 兼容写法到纯 Python 3 注解 |
 | [skills/python/add-python-basic-code-checks/](skills/python/add-python-basic-code-checks/) | 添加 Python 基础代码检查配置模板 including ruff mypy pre-commit 与 pyproject.toml 和 .pre-commit-config.yaml 示例 |
 
 ### 数据转换

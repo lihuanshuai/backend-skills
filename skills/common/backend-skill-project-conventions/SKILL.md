@@ -22,11 +22,11 @@ backend-skills 是面向后端开发的 Cursor Agent 技能集合。每个技能
   - 可选：`metadata` 等
 - **metadata.depends_on / used_by**：仅可引用本仓库 README「技能列表」中列出的技能，不得依赖未列出项目的 skill
 - 使用中文编写技能正文，结构清晰（概述、使用方式、示例、注意事项等）
-- 若技能依赖外部工具或库（如 PyYAML、pre-commit、com2ann），在技能内和 README 中明确说明
+- 若技能依赖外部工具或库（如 PyYAML、pre-commit），在技能内和 README 中明确说明
 
 ## 首选依赖与工具
 
-- **Python**：带脚本的技能使用 Python 3.6+（个别技能如 com2ann 需更高版本，以该技能 SKILL 为准），仅用标准库或明确声明的依赖（如 PyYAML）
+- **Python**：带脚本的技能使用 Python 3.6+（个别技能如需更高版本，以该技能 SKILL 为准），仅用标准库或明确声明的依赖（如 PyYAML）
 - **pre-commit**：fix-with-pre-commit 技能在项目根目录执行，依赖 `.pre-commit-config.yaml`
 
 ## 项目文件结构约定
