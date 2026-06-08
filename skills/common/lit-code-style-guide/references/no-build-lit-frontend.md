@@ -13,7 +13,7 @@
 - 模板直接输出当前页面 custom element，例如：
 
 ```html
-<yaml-config-detail-app config-id="{{ config_id }}"></yaml-config-detail-app>
+<record-detail-app record-id="{{ record_id }}"></record-detail-app>
 ```
 
 - 页面参数通过 HTML attribute 传给 custom element，组件内部读取 attribute。
@@ -53,10 +53,9 @@ static/<app>/
 │   └── value-editor.js
 ├── lib/
 │   ├── api.js
-│   └── yaml.js
+│   └── format.js
 └── vendor/
-    ├── lit.bundle.mjs
-    └── js-yaml.bundle.mjs
+    └── lit.bundle.mjs
 ```
 
 - `apps/`：页面级 custom element，负责页面数据加载、状态和布局。
@@ -74,9 +73,9 @@ litRender(
   html`
     <textarea
       class="form-control"
-      .value=${this.yamlText}
+      .value=${this.formValue}
       @input=${(event) => {
-        this.yamlText = event.currentTarget.value;
+        this.formValue = event.currentTarget.value;
       }}
     ></textarea>
   `,
@@ -109,7 +108,6 @@ export class LightElement extends LitElement {
 
 ```js
 import { html, render as litRender } from "lit";
-import * as yaml from "js-yaml";
 ```
 
 - 后端模板中的本地 import map 将 bare import 映射到本地静态 vendor 文件。
