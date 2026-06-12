@@ -1,9 +1,14 @@
 [tool.ruff]
 line-length = 100
+exclude = ["venv", "build", ".venv"]
 
 [tool.ruff.lint]
 extend-select = ["RUF100", "RUF101", "RUF102", "PGH"]
 preview = false
+ignore = ["E203", "E226"]
+
+[tool.ruff.format]
+quote-style = "preserve"
 
 [tool.mypy]
 ignore_missing_imports = true

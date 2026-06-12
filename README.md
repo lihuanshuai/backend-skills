@@ -5,7 +5,7 @@
 ## 依赖
 
 - **Python**：带脚本的技能（data-format-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见技能目录下的 `scripts/requirements.txt`）。JSON 对象/数组互转仅用标准库，无额外依赖。
-- **pre-commit**：`fix-with-pre-commit` 技能在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
+- **pre-commit / ruff / mypy**：`python-basic-ci-config-guide` 用于配置这些工具；`fix-with-pre-commit` 在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 
 ## 安装
 
@@ -39,9 +39,8 @@ cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip inst
 | 技能目录 | 说明 |
 |----------|------|
 | [skills/common/lit-code-style-guide/](skills/common/lit-code-style-guide/) | Lit 前端代码风格与无构建发布规范，覆盖后端模板入口、本地 import map、页面级模块加载、vendor 管理与真实页面验证 |
-| [skills/python/replace-black-with-ruff/](skills/python/replace-black-with-ruff/) | 将 black、isort、flake8（及可选 autoflake）替换为 ruff，统一配置 pre-commit 与 pyproject.toml |
+| [skills/python/python-basic-ci-config-guide/](skills/python/python-basic-ci-config-guide/) | Python 基础 CI 配置指南，覆盖 ruff、mypy、pre-commit 的新增配置，以及 black、isort、flake8 到 ruff 的迁移配置 |
 | [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
-| [skills/python/add-python-basic-code-checks/](skills/python/add-python-basic-code-checks/) | 添加 Python 基础代码检查配置模板 including ruff mypy pre-commit 与 pyproject.toml 和 .pre-commit-config.yaml 示例 |
 
 ### 数据转换
 
