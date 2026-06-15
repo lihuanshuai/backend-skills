@@ -37,7 +37,7 @@ description: Guide Python projects to add or migrate basic CI code quality confi
 
 ## 总体流程
 
-1. 确认项目根目录和现有配置：`pyproject.toml`、`.pre-commit-config.yaml`、依赖文件、CI 配置、README。
+1. 确认项目根目录和现有配置：`pyproject.toml`、`.pre-commit-config.yaml`、依赖文件、CI 配置、README，并从项目说明、runtime 或 CI 配置判断是否 Python 3-only。
 2. 按「场景索引」读取对应参考文档。
 3. 合并模板或迁移配置，避免重复 hook、重复 `[tool.*]` 配置与重复依赖。
 4. 更新 CI 配置和项目 README，确保本地与 CI 使用同一套命令。
@@ -75,7 +75,7 @@ mypy <package_or_module>
 ## 检查清单
 
 - `pyproject.toml` 中没有重复或冲突的 black、isort、flake8、ruff 配置。
-- `.pre-commit-config.yaml` 中 ruff 使用 `ruff-check` 与 `ruff-format` 双 hook。
+- `.pre-commit-config.yaml` 中 ruff 使用 `ruff-check` 与 `ruff-format` 双 hook；Python 3-only 项目的 `ruff-check` 必须启用 `I,UP`，Python 2/混合运行时才只启用 `I`。
 - 依赖文件已移除被 ruff 替代的旧工具，并保留 CI 实际需要的工具。
 - CI 配置和脚本调用的是迁移后的命令。
 - README 说明了本地安装、lint、format、type-check 与 pre-commit 用法。

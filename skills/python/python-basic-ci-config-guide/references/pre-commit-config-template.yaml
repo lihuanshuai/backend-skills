@@ -20,5 +20,5 @@ repos:
   rev: v0.15.2
   hooks:
   - id: ruff-check
-    args: [--fix, --extend-select, "I", --unsafe-fixes]
+    args: [--fix, --extend-select, "I,UP", --unsafe-fixes]
   - id: ruff-format

@@ -21,7 +21,7 @@
 注意：
 
 - `ruff-check` 用于 lint 与自动修复，`ruff-format` 用于格式化；不要只配置单个旧式 `ruff` hook。
-- 模板默认只启用 `I` 规则做 import 排序；`UP` 规则仅适用于 Python 3-only 项目。
+- 先判断项目 Python 运行时；确认 Python 3-only 时必须启用 `I,UP`，仍需兼容 Python 2 或混合运行时时只启用 `I`。
 - hook 版本优先与团队现有仓库保持一致；模板版本只是基础参考。
 
 ## 2. 更新 `pyproject.toml`
@@ -63,5 +63,5 @@ mypy <package_or_module>
 
 - 不重复添加已有 repo、hook 或 `[tool.*]` 配置段。
 - `ruff-check` 与 `ruff-format` 分成两个 hook。
-- `UP` 规则只在确认 Python 3-only 后启用。
+- Python 3-only 项目的 `ruff-check` 必须包含 `--extend-select, "I,UP"`；Python 2/混合运行时项目才使用 `--extend-select, "I"`。
 - README 与 CI 文档里的命令和实际配置一致。
