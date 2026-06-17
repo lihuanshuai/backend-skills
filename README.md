@@ -53,7 +53,6 @@ cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip inst
 | 技能目录 | 说明 |
 |----------|------|
 | [skills/python/python-bump-version/](skills/python/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
-| [skills/python/python-upgrade-deps/](skills/python/python-upgrade-deps/) | 升级依赖包版本，支持 pip-req.txt、requirements.txt、pyproject.toml |
 
 ### 流程与规划
 
