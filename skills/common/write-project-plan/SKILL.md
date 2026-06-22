@@ -64,7 +64,7 @@ description: 编写详尽的实施计划，适用于拿到需求/规格后、动
 
 ### 5. 编写计划文档
 
-计划保存至 `docs/plans/YYYY-MM-DD-<feature-name>.md`（用户偏好可覆盖此默认路径）。
+计划保存至 `docs/agent_plans/YYYY-MM-DD-<feature-name>.md`（用户偏好可覆盖此默认路径）；若目标项目尚无该目录，先创建 `docs/agent_plans/`。
 
 常见计划类型：
 - **功能需求**：明确需求 → API 草稿 → mock → 分步实现 → 联调修复
