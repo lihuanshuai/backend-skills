@@ -28,10 +28,11 @@ metadata:
 
 ## subagent 执行策略
 
-优先将本技能交给 subagent 执行，主 Agent 负责确认边界、回收结果和最终汇报。
+必须先尝试派生 subagent 执行本技能，避免标准提交流程被主 Agent 手动命令替代。主 Agent 负责确认边界、回收结果和最终汇报。
 
-- **适合交给 subagent**：用户已明确要求 commit/push，当前改动范围清晰，且只需要完成标准 `commit -> rebase -> push` 流程。
-- **主 Agent 自行执行**：当前仓库存在 rebase/merge 冲突、需要用户选择提交范围、要处理敏感线上配置，或当前环境没有可用 subagent 能力。
+- **派生成功则交给 subagent 执行**：用户已明确要求 commit/push，当前改动范围清晰，且只需要完成标准 `commit -> rebase -> push` 流程时，主 Agent 不得直接代替执行。
+- **仅在派生失败或不适合时主 Agent 自行执行**：当前仓库存在 rebase/merge 冲突、需要用户选择提交范围、要处理敏感线上配置，或当前环境没有可用 subagent 能力。
+- **回退需说明原因**：若未使用 subagent，主 Agent 必须在最终汇报中简述原因，如「无可用 subagent 能力」或「当前存在冲突需用户介入」。
 - **主 Agent 委派前检查**：确认当前分支、remote、默认分支、`git status --short`、是否存在 `.pre-commit-config.yaml`，并给出提交说明。
 - **subagent 回传要求**：必须回传脚本完整输出中的 commit hash、rebase 结果、push 结果、是否忽略 untracked 文件，以及最终 `git status --short`。
 - **主 Agent 回收复核**：收到回传后必须复核工作区状态；若已成功暂存、提交或推送，应在最终回复中发出对应 Git 指令事件。
