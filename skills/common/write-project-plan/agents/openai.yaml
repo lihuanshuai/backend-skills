@@ -1,0 +1,5 @@
+allow_implicit_invocation: false
+interface:
+  display_name: "项目实施计划指南"
+  short_description: "指导需求拆解、实施计划编写、任务总览与验证流程设计"
+  default_prompt: "Use $write-project-plan to write a detailed implementation plan before coding."

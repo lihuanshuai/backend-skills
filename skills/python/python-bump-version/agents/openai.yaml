@@ -1,0 +1,5 @@
+allow_implicit_invocation: false
+interface:
+  display_name: "Python 版本提升指南"
+  short_description: "指导 Python 包在 pyproject.toml、setup.cfg 或 setup.py 中提升版本号"
+  default_prompt: "Use $python-bump-version to bump a Python package version in pyproject.toml, setup.cfg, or setup.py."
