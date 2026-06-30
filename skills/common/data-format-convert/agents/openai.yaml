@@ -1,5 +1,0 @@
-allow_implicit_invocation: false
-interface:
-  display_name: "数据格式转换指南"
-  short_description: "指导 CSV 提取导出、YAML 与 JSON 互转、JSON 对象与数组互转"
-  default_prompt: "Use $data-format-convert to convert or extract CSV, YAML, or JSON data."

@@ -11,7 +11,7 @@ description: Define and check backend-skills project conventions when creating o
 
 ## 项目背景
 
-backend-skills 是面向后端开发的 Cursor Agent 技能集合。每个技能对应一个独立目录，内含 `SKILL.md` 及可选脚本，供 Agent 在相关任务中自动读取并遵循执行。当前技能覆盖 pre-commit 检查修复、CSV 提取导出、YAML/JSON 互转等通用后端场景。
+backend-skills 是面向后端开发的 Cursor Agent 技能集合。每个技能对应一个独立目录，内含 `SKILL.md` 及可选脚本，供 Agent 在相关任务中自动读取并遵循执行。当前技能覆盖 pre-commit 检查修复、Python CI 配置、项目规划等通用后端场景。
 
 ## 编码与文档标准
 

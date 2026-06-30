@@ -1,10 +1,10 @@
 # backend-skills
 
-后端开发相关 Cursor Agent 技能（pre-commit、CSV/YAML/JSON 等）。
+后端开发相关 Cursor Agent 技能（pre-commit、Python CI、项目规划等）。
 
 ## 依赖
 
-- **Python**：带脚本的技能（data-format-convert）需 Python 3.6+；输出 YAML 时需安装 PyYAML（见技能目录下的 `scripts/requirements.txt`）。JSON 对象/数组互转仅用标准库，无额外依赖。
+- **Python**：带脚本的技能按各自 `SKILL.md` 与 `scripts/requirements.txt` 声明安装依赖。
 - **pre-commit / ruff / mypy**：`python-basic-ci-config-guide` 用于配置这些工具；`fix-with-pre-commit` 在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 
 ## 安装
@@ -19,12 +19,6 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 ```
 
 完成后技能位于 `~/.cursor/skills/backend-skills/skills/`（含 `python/` 和 `common/` 两个子目录），Cursor Agent 会在「Agent Skills」中发现并读取各技能目录下的 `SKILL.md`。
-
-使用带脚本的技能（data-format-convert）时，若需 YAML 输出，在技能目录下安装 `scripts/requirements.txt` 依赖即可：
-
-```bash
-cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip install -r scripts/requirements.txt
-```
 
 ## 技能列表
 
@@ -41,12 +35,6 @@ cd ~/.cursor/skills/backend-skills/skills/common/data-format-convert && pip inst
 | [skills/common/lit-code-style-guide/](skills/common/lit-code-style-guide/) | Lit 前端代码风格与无构建发布规范，覆盖后端模板入口、本地 import map、页面级模块加载、vendor 管理与真实页面验证 |
 | [skills/python/python-basic-ci-config-guide/](skills/python/python-basic-ci-config-guide/) | Python 基础 CI 配置指南，覆盖 ruff、mypy、pre-commit 的新增配置，以及 black、isort、flake8 到 ruff 的迁移配置 |
 | [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 检查并自动修复 pre-commit 报错，支持按文件列表或 linter 输出跑 hook |
-
-### 数据转换
-
-| 技能目录 | 说明 |
-|----------|------|
-| [skills/common/data-format-convert/](skills/common/data-format-convert/) | 数据格式转换与提取，覆盖 CSV 提取导出、YAML/JSON 互转、JSON 对象/数组互转，按需求路由到具体子任务 |
 
 ### 版本与依赖
 
