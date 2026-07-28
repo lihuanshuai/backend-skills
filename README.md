@@ -48,4 +48,4 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 |----------|------|
 | [skills/common/write-project-plan/](skills/common/write-project-plan/) | 编写详尽的实施计划，面向零项目上下文的工程师，包含完整代码、命令与验证方式，遵循 TDD 和零占位符原则 |
 | [skills/common/execute-project-plan/](skills/common/execute-project-plan/) | 执行已写就的项目实施计划，按步骤推进并逐步验证，通过计划文件维护进度与状态 |
-| [skills/common/git-commit-push/](skills/common/git-commit-push/) | 执行 Git 提交、rebase --onto 与推送的标准流程，包含 staged 限制、pre-commit 约束与冲突处理 |
+| [skills/common/git-commit-push/](skills/common/git-commit-push/) | 自动探测 Git 上下文，提交已跟踪改动、执行 squash-aware rebase 并推送当前分支 |

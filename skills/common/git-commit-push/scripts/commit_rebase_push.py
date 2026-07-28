@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from typing import Dict, List, Sequence, Tuple
@@ -51,6 +52,110 @@ def _repo_root() -> str:
 
 def _current_head() -> str:
     return _git_stdout(["rev-parse", "HEAD"])
+
+
+def _current_branch() -> str:
+    cp = _run_git(["symbolic-ref", "--quiet", "--short", "HEAD"], check=False)
+    branch = (cp.stdout or "").strip()
+    if cp.returncode != 0 or not branch:
+        raise StepError("detached HEAD; switch to the target branch before committing")
+    return branch
+
+
+def _remotes() -> List[str]:
+    return [line for line in _git_stdout(["remote"]).splitlines() if line]
+
+
+def _validate_remote(remote: str, remotes: Sequence[str], option: str) -> str:
+    if remote not in remotes:
+        raise StepError(f"remote {remote!r} does not exist; override it with {option}")
+    return remote
+
+
+def _detect_default_branch(remote: str) -> Tuple[str, str]:
+    cp = _run_git(["ls-remote", "--symref", remote, "HEAD"], check=False)
+    if cp.returncode == 0:
+        for line in (cp.stdout or "").splitlines():
+            match = re.match(r"^ref: refs/heads/([^\t]+)\tHEAD$", line)
+            if match:
+                return match.group(1), "remote_head"
+
+    cp = _run_git(["symbolic-ref", f"refs/remotes/{remote}/HEAD"], check=False)
+    ref = (cp.stdout or "").strip()
+    prefix = f"refs/remotes/{remote}/"
+    if cp.returncode == 0 and ref.startswith(prefix):
+        return ref[len(prefix) :], "local_remote_head"
+
+    raise StepError(
+        f"cannot detect the default branch for {remote!r}; pass --default-branch"
+    )
+
+
+def _legacy_context(args: argparse.Namespace) -> Dict[str, str]:
+    values = args.legacy_context
+    if not values:
+        return {}
+    if len(values) != 4:
+        raise StepError(
+            "legacy context requires: upstream_remote origin_remote default_branch current_branch",
+            2,
+        )
+    if any(
+        value
+        for value in (
+            args.upstream_remote,
+            args.origin_remote,
+            args.default_branch,
+            args.current_branch,
+        )
+    ):
+        raise StepError("do not mix legacy context arguments with named context options", 2)
+    return dict(
+        zip(
+            ("upstream_remote", "origin_remote", "default_branch", "current_branch"),
+            values,
+        )
+    )
+
+
+def _resolve_context(args: argparse.Namespace) -> Dict[str, str]:
+    legacy = _legacy_context(args)
+    remotes = _remotes()
+    if not remotes:
+        raise StepError("repository has no Git remotes")
+
+    upstream_remote = legacy.get("upstream_remote") or args.upstream_remote
+    if not upstream_remote:
+        upstream_remote = "upstream" if "upstream" in remotes else "origin"
+    upstream_remote = _validate_remote(
+        upstream_remote, remotes, "--upstream-remote"
+    )
+
+    origin_remote = legacy.get("origin_remote") or args.origin_remote or "origin"
+    origin_remote = _validate_remote(origin_remote, remotes, "--origin-remote")
+
+    actual_branch = _current_branch()
+    current_branch = (
+        legacy.get("current_branch") or args.current_branch or actual_branch
+    )
+    if current_branch != actual_branch:
+        raise StepError(
+            f"current branch is {actual_branch!r}, not {current_branch!r}; "
+            "refusing to push another branch"
+        )
+
+    default_branch = legacy.get("default_branch") or args.default_branch
+    default_branch_source = "argument"
+    if not default_branch:
+        default_branch, default_branch_source = _detect_default_branch(upstream_remote)
+
+    return {
+        "upstream_remote": upstream_remote,
+        "origin_remote": origin_remote,
+        "default_branch": default_branch,
+        "default_branch_source": default_branch_source,
+        "current_branch": current_branch,
+    }
 
 
 def _has_staged_changes() -> bool:
@@ -168,39 +273,72 @@ def run(args: argparse.Namespace) -> int:
         _run_pre_commit_on_staged(staged)
         _run_git(["add", "--update"], check=True)
         if not _has_staged_changes():
-            _print_step("skip", reason="no staged changes after pre-commit; skipped commit/push")
+            _print_step(
+                "skip",
+                reason="no staged changes after pre-commit; skipped commit/push",
+            )
             return 0
+
+    context = _resolve_context(args)
+    _print_step("context", **context)
 
     committed_head = _commit(args.message)
     _print_step("commit", head=committed_head)
 
-    rebase_info = choose_rebase_base(args.upstream_remote, args.default_branch)
+    rebase_info = choose_rebase_base(
+        context["upstream_remote"], context["default_branch"]
+    )
     _print_step("rebase_base", **rebase_info)
     rebased, head_after_rebase = _rebase_onto(rebase_info)
     _print_step("rebase", changed=rebased, head=head_after_rebase)
 
     if not args.no_push:
-        _push(args.origin_remote, args.current_branch, force_with_lease=rebased)
-        _print_step("push", branch=args.current_branch, force_with_lease=rebased, remote=args.origin_remote)
+        _push(
+            context["origin_remote"],
+            context["current_branch"],
+            force_with_lease=rebased,
+        )
+        _print_step(
+            "push",
+            branch=context["current_branch"],
+            force_with_lease=rebased,
+            remote=context["origin_remote"],
+        )
 
     return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Commit staged tracked changes, rebase with squash-aware base selection, and push."
+        description=(
+            "Commit tracked changes, rebase with squash-aware base selection, and push. "
+            "Git context is detected automatically."
+        )
     )
-    parser.add_argument("upstream_remote")
-    parser.add_argument("origin_remote")
-    parser.add_argument("default_branch")
-    parser.add_argument("current_branch")
-    parser.add_argument("--message", required=True, help="commit message generated by the agent")
+    parser.add_argument("legacy_context", nargs="*", help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--message", required=True, help="commit message generated by the agent"
+    )
+    parser.add_argument(
+        "--upstream-remote", help="override the detected upstream remote"
+    )
+    parser.add_argument(
+        "--origin-remote", help="override the push remote (defaults to origin)"
+    )
+    parser.add_argument(
+        "--default-branch", help="override the detected upstream default branch"
+    )
+    parser.add_argument(
+        "--current-branch", help="assert the current branch before pushing"
+    )
     parser.add_argument(
         "--skip-pre-commit",
         action="store_true",
         help="skip explicit pre-commit run and rely on the commit hook",
     )
-    parser.add_argument("--no-push", action="store_true", help="commit and rebase but skip push")
+    parser.add_argument(
+        "--no-push", action="store_true", help="commit and rebase but skip push"
+    )
     return parser
 
 
