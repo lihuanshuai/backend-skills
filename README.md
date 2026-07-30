@@ -26,7 +26,7 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/common/backend-skill-project-conventions/](skills/common/backend-skill-project-conventions/) | 维护 backend-skills 的项目约束，统一 frontmatter、路径引用、依赖声明与 README 技能列表同步规则 |
+| [skills/common/backend-skill-project-conventions/](skills/common/backend-skill-project-conventions/) | 维护并校验 backend-skills 的 frontmatter、路径、内部依赖和 README 技能列表约束 |
 
 ### 代码规范与工具
 
