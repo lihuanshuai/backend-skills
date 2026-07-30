@@ -32,7 +32,7 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/common/lit-code-style-guide/](skills/common/lit-code-style-guide/) | Lit 前端代码风格与无构建发布规范，覆盖后端模板入口、本地 import map、页面级模块加载、vendor 管理与真实页面验证 |
+| [skills/common/lit-code-style-guide/](skills/common/lit-code-style-guide/) | 设计、实现或审查随后端发布的无构建 Lit 页面，覆盖模板入口、import map、vendor 管理和浏览器验证 |
 | [skills/python/python-basic-ci-config-guide/](skills/python/python-basic-ci-config-guide/) | 新增 Python 基础 CI，或将 Black、isort、Flake8、autoflake 等 legacy 工具迁移到 Ruff |
 | [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 在最小文件范围内运行 pre-commit，修复真实问题并准确报告验证结果 |
 

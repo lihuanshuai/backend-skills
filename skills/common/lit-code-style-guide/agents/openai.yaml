@@ -1,5 +1,6 @@
-﻿allow_implicit_invocation: false
 interface:
   display_name: "Lit 代码风格指南"
   short_description: "指导无构建 Lit 页面架构、import map、vendor 管理与真实页面验证"
-  default_prompt: "Use $lit-code-style-guide to implement or review no-build Lit frontend code."
+  default_prompt: "Use $lit-code-style-guide to design, implement, or review a no-build Lit frontend."
+policy:
+  allow_implicit_invocation: false
