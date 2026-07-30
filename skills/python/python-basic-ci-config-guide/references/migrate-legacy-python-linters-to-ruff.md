@@ -1,126 +1,30 @@
-# 场景：迁移 legacy Python linters 到 ruff
+# 迁移 Legacy Linters 到 Ruff
 
-约定 `<skill_dir>` 为 `python-basic-ci-config-guide` 技能所在目录。
+约定 `<skill_dir>` 为当前技能目录，`<repo_dir>` 为目标项目根目录。
 
-本参考用于将已有 black、isort、flake8、autoflake 或旧 ruff 配置迁移到统一的 ruff、mypy、pre-commit 基线。
+## 迁移
 
-## 1. 迁移 `.pre-commit-config.yaml`
+1. 搜索 Black、isort、Flake8、autoflake 和旧 Ruff 在以下位置的全部入口：
+   - `.pre-commit-config.yaml`、`pyproject.toml` 及其他工具配置。
+   - requirements、开发依赖和 lock 文件。
+   - CI 脚本、任务定义、归档文件名和 README 命令。
+2. 先记录原行为，再合并 Ruff：
+   - Black 行宽、exclude 和 quote 诉求映射到 `[tool.ruff]` / `[tool.ruff.format]`。
+   - isort 行为由 Ruff `I` 接管，并保留必要的 first-party/section 配置。
+   - Flake8 select、ignore、per-file-ignores 和插件规则逐项映射到 `[tool.ruff.lint]`；不能映射的规则必须显式说明。
+   - autoflake 的 import/unused 清理映射到对应 Ruff 规则，不默认启用 unsafe fixes。
+3. 将 pre-commit 收口为独立的 `ruff-check` 与 `ruff-format` hook。Python 3-only 才在 check hook 启用 `I,UP`；Python 2/混合运行时只启用 `I`。
+4. 只有 Ruff 已覆盖且 CI 不再调用后，才从 hook、配置、依赖和 CI 中删除 legacy 工具。保留平台要求的任务类型或归档契约，除非目标 CI 同时完成迁移。
+5. Mypy 不属于 Ruff 替代范围；保留既有入口，新增或调整严格度时按注解覆盖率单独决策。
 
-删除以下 repo 及对应 hooks（若存在）：
+## 验证
 
-- `PyCQA/isort`
-- `psf/black`
-- `PyCQA/flake8`
-- 可选：`PyCQA/autoflake`
+1. 对同一组代表文件分别记录迁移前后结果，确认格式、import 排序和关键 lint 覆盖没有意外丢失。
+2. 对变更文件运行新 pre-commit hook，审查 autofix 后复跑。
+3. 执行目标项目真实 CI lint/format/type-check 入口，并确认输出文件与归档配置一致。
+4. 搜索 legacy 工具残留；区分仍有意保留的配置、文档历史和应删除的执行入口，不做盲目全局替换。
 
-新增或更新 ruff 配置：
+## 终止条件
 
-```yaml
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.2
-  hooks:
-  - id: ruff-check
-    args: [--fix, --extend-select, "I,UP", --unsafe-fixes]
-  - id: ruff-format
-```
-
-说明：
-
-- `--extend-select, "I,UP"` 用 ruff 覆盖 import 排序，并在 Python 3-only 项目启用语法现代化修复。
-- 迁移前必须从项目说明、`app.yaml`、`pyproject.toml` 或 CI runtime 判断 Python 版本；确认 Python 3-only 时不要漏加 `UP`。
-- 如果项目仍需兼容 Python 2 或混合运行时，才将参数降级为 `--extend-select, "I"`。
-- `--unsafe-fixes` 只在项目接受自动替换语义风险时保留；若项目保守，可先去掉。
-- 若项目已有 ruff，只需调整为 `ruff-check` 与 `ruff-format` 双 hook，并对齐参数。
-
-## 2. 迁移 `pyproject.toml`
-
-删除旧工具配置（若存在）：
-
-- `[tool.black]`
-- `[tool.isort]`
-- `[tool.flake8]`
-- `[tool.autoflake]`
-
-新增或合并 ruff 配置：
-
-```toml
-[tool.ruff]
-line-length = 100
-exclude = ["venv", "build", ".venv"]
-
-[tool.ruff.lint]
-extend-select = ["RUF100", "RUF101", "RUF102", "PGH"]
-preview = false
-ignore = ["E203", "E226"]
-
-[tool.ruff.format]
-quote-style = "preserve"
-```
-
-迁移时要对齐原配置：
-
-- 原 black 的 `line-length`、`exclude` 迁移到 `[tool.ruff]`。
-- 原 isort 的导入排序诉求优先由 ruff 的 `I` 规则覆盖。
-- 原 flake8 的 `ignore`、`per-file-ignores` 迁移到 `[tool.ruff.lint]` 或 `[tool.ruff.lint.per-file-ignores]`。
-- 不再单独配置 `select` 时，ruff 默认已覆盖常见 `E`、`F` 规则；需要扩展时使用 `extend-select`。
-
-## 3. 清理依赖
-
-从项目依赖文件中移除已被 ruff 替代的工具（若存在）：
-
-- `black`
-- `isort`
-- `flake8`
-- `autoflake`
-
-检查范围包括：
-
-- `requirements.txt`
-- `pip-req.txt`
-- `pip-req.d/`
-- `pyproject.toml` 的开发依赖分组
-- CI 专用依赖文件
-
-保留或新增：
-
-- `ruff`
-- `mypy`
-- `pre-commit`
-
-## 4. 更新 CI 配置
-
-若项目有 CI 配置，例如 `app.yaml` 的 `test_handlers`、Jenkinsfile、GitHub Actions、GitLab CI 等，需要同步更新：
-
-1. 删除 black、isort、flake8、autoflake 相关 lint/format 任务。
-2. 新增或更新 ruff 任务：执行 `ruff check`，必要时追加 `ruff format --check`。
-3. 保留或新增 mypy 任务，确保类型检查入口和本地文档一致。
-4. 若 CI 需要产物归档，确保脚本输出文件与 CI 配置的 archive 字段一致。
-
-`app.yaml` 的 `test_handlers` 示例：
-
-```yaml
-- name: ruff
-  type: flake8
-  test_script: tools/ci-scripts/ruff.sh
-  pip_req_path: tools/ci-scripts/ruff-reqs.txt
-  enable_pr: true
-  archive: ruff.out
-```
-
-ruff 脚本示例：
-
-```bash
-set -e
-
-rm -f ruff.out
-
-ruff check --output-file=ruff.out .
-ruff format --check .
-```
-
-## 5. 迁移 legacy Python linters 到 ruff 检查点
-
-- 旧工具的 hook、配置段、依赖和 CI 任务已同步移除。
-- ruff 配置继承了原有行宽、排除目录、忽略规则和 per-file ignores。
-- Python 3-only 项目的 `ruff-check` 已启用 `I,UP`；Python 2/混合运行时项目需明确说明未启用 `UP` 的原因。
-- CI 脚本输出文件与归档配置一致。
+- 无法确认 runtime、插件规则映射、CI task 契约或版本兼容性时停止并列出缺口，不猜测删除。
+- 若迁移需要大范围历史格式化或新增大量 ignore，拆成独立迁移计划，不把范围扩进基础配置提交。

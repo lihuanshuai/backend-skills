@@ -1,67 +1,21 @@
-# 场景：新增 Python 基础 CI 配置
+# 新增 Python 基础 CI
 
-约定 `<skill_dir>` 为 `python-basic-ci-config-guide` 技能所在目录。
+约定 `<skill_dir>` 为当前技能目录，`<repo_dir>` 为目标项目根目录。
 
-本参考用于新项目初始化、旧项目补齐基础检查、或多仓库统一 Python 代码检查基线。
+## 配置
 
-## 1. 更新 `.pre-commit-config.yaml`
+1. 盘点 `<repo_dir>` 已有 hook、`[tool.*]`、依赖文件和 CI 入口，确认 Python runtime、包管理方式及待检查模块。
+2. 从 `<skill_dir>/references/pre-commit-config-template.yaml` 和 `<skill_dir>/references/pyproject-template.toml` 选择缺失部分合并；不得覆盖已有无关配置或重复 repo、hook、表段。
+3. 根据项目事实调整：
+   - `ruff-check` 与 `ruff-format` 保持为独立 hook。
+   - Python 3-only 使用 `I,UP`；Python 2/混合运行时使用 `I`。
+   - 默认不启用 `--unsafe-fixes`；行宽、exclude、quote style 和 Mypy 严格度沿用项目基线。
+   - hook `rev` 对齐团队或相邻仓库已验证版本，不把模板版本视为升级要求。
+4. 在项目实际使用的开发或 CI 依赖位置声明 Ruff、Mypy、pre-commit；若 hook 有额外 import 依赖，按其隔离环境补 `additional_dependencies`，不要假设项目环境会透传给 hook。
+5. 同步 CI 任务和 README，使本地文档、hook 与 CI 调用同一入口；不为文档示例额外发明一套命令。
 
-若项目没有 `.pre-commit-config.yaml`，可从模板创建；若已存在，合并模板中的 repo 与 hooks。
+## 验证
 
-模板位置：
-
-- `<skill_dir>/references/pre-commit-config-template.yaml`
-
-默认包含：
-
-- `pre-commit-hooks` 基础文件检查。
-- `mirrors-mypy` 的 `mypy` hook。
-- `ruff-pre-commit` 的 `ruff-check` 与 `ruff-format` 两个 hook。
-
-注意：
-
-- `ruff-check` 用于 lint 与自动修复，`ruff-format` 用于格式化；不要只配置单个旧式 `ruff` hook。
-- 先判断项目 Python 运行时；确认 Python 3-only 时必须启用 `I,UP`，仍需兼容 Python 2 或混合运行时时只启用 `I`。
-- hook 版本优先与团队现有仓库保持一致；模板版本只是基础参考。
-
-## 2. 更新 `pyproject.toml`
-
-若项目没有 `pyproject.toml`，先创建基础文件；若已存在，合并模板中的配置段。
-
-模板位置：
-
-- `<skill_dir>/references/pyproject-template.toml`
-
-默认包含：
-
-- `[tool.ruff]`
-- `[tool.ruff.lint]`
-- `[tool.ruff.format]`
-- `[tool.mypy]`
-
-建议：
-
-- `line-length`、`exclude`、`ignore` 按项目现有风格微调。
-- mypy 初始落地可保留 `ignore_missing_imports = true` 作为过渡，再按项目逐步收紧。
-- 如需统一双引号，可将 `[tool.ruff.format]` 的 `quote-style` 从 `"preserve"` 调整为 `"double"`。
-
-## 3. 补充依赖与 README
-
-- 在项目依赖文件中加入本地和 CI 实际会使用的工具，例如 `ruff`、`mypy`、`pre-commit`。
-- 若项目将 CI 检查依赖拆到独立文件，按现有约定新增或更新对应 reqs 文件。
-- 更新项目 `README.md`，说明常用命令：
-
-```bash
-pre-commit install
-pre-commit run --files <changed_file_1.py> <changed_file_2.py>
-ruff check .
-ruff format --check .
-mypy <package_or_module>
-```
-
-## 4. 新增 Python 基础 CI 配置检查点
-
-- 不重复添加已有 repo、hook 或 `[tool.*]` 配置段。
-- `ruff-check` 与 `ruff-format` 分成两个 hook。
-- Python 3-only 项目的 `ruff-check` 必须包含 `--extend-select, "I,UP"`；Python 2/混合运行时项目才使用 `--extend-select, "I"`。
-- README 与 CI 文档里的命令和实际配置一致。
+- 先对变更文件或少量代表文件运行 `pre-commit run --files <files>`，审查自动修复后复跑。
+- 再执行目标项目真实 lint、format-check 和 type-check CI 脚本；缺少可运行环境时准确报告，不能以模板解析成功代替 CI。
+- 确认没有重复配置、未声明依赖或不受 CI 消费的孤立工具配置。

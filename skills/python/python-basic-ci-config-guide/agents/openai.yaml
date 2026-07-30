@@ -1,5 +1,6 @@
-allow_implicit_invocation: false
 interface:
   display_name: "Python 基础 CI 配置指南"
   short_description: "指导 Python 项目新增或迁移 ruff、mypy、pre-commit 等代码质量配置"
   default_prompt: "Use $python-basic-ci-config-guide to add or migrate Python CI code quality configuration."
+policy:
+  allow_implicit_invocation: false
