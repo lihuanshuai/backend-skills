@@ -41,5 +41,5 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 | 技能目录 | 说明 |
 |----------|------|
 | [skills/common/write-project-plan/](skills/common/write-project-plan/) | 基于真实仓库证据编写零上下文可执行的实施计划，包含精确文件、完整代码、验证命令和完成条件 |
-| [skills/common/execute-project-plan/](skills/common/execute-project-plan/) | 执行已写就的项目实施计划，按步骤推进并逐步验证，通过计划文件维护进度与状态 |
+| [skills/common/execute-project-plan/](skills/common/execute-project-plan/) | 按已确认的实施计划逐步修改代码、验证结果并回写状态，支持完整执行、继续任务或从指定步骤恢复 |
 | [skills/common/git-commit-push/](skills/common/git-commit-push/) | 自动探测 Git 上下文，提交已跟踪改动、执行 squash-aware rebase 并推送当前分支 |
