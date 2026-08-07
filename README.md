@@ -36,12 +36,6 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 | [skills/python/python-basic-ci-config-guide/](skills/python/python-basic-ci-config-guide/) | 新增 Python 基础 CI，或将 Black、isort、Flake8、autoflake 等 legacy 工具迁移到 Ruff |
 | [skills/common/fix-with-pre-commit/](skills/common/fix-with-pre-commit/) | 在最小文件范围内运行 pre-commit，修复真实问题并准确报告验证结果 |
 
-### 版本与依赖
-
-| 技能目录 | 说明 |
-|----------|------|
-| [skills/python/python-bump-version/](skills/python/python-bump-version/) | 提升 Python 包版本，支持 setup.py、setup.cfg、pyproject.toml，可选 patch/minor/major |
-
 ### 流程与规划
 
 | 技能目录 | 说明 |
