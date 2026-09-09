@@ -5,7 +5,7 @@
 ## 依赖
 
 - **Python**：带脚本的技能按各自 `SKILL.md` 与 `scripts/requirements.txt` 声明安装依赖。
-- **pre-commit / ruff / mypy**：`python-basic-ci-config-guide` 用于配置这些工具；`fix-with-pre-commit` 在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
+- **pre-commit / ruff / mypy**：`python-basic-ci-config-guide` 用于配置这些工具；`fix-with-pre-commit` 和 `git-commit-push` 在项目根目录执行，需已安装 [pre-commit](https://pre-commit.com/) 且项目存在 `.pre-commit-config.yaml`。
 
 ## 安装
 
@@ -42,4 +42,4 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 |----------|------|
 | [skills/common/write-project-plan/](skills/common/write-project-plan/) | 基于真实仓库证据编写零上下文可执行的实施计划，包含精确文件、完整代码、验证命令和完成条件 |
 | [skills/common/execute-project-plan/](skills/common/execute-project-plan/) | 按已确认的实施计划逐步修改代码、验证结果并回写状态，支持完整执行、继续任务或从指定步骤恢复 |
-| [skills/common/git-commit-push/](skills/common/git-commit-push/) | 自动探测 Git 上下文，提交已跟踪改动、执行 squash-aware rebase 并推送当前分支 |
+| [skills/common/git-commit-push/](skills/common/git-commit-push/) | 自动探测 Git 上下文，提交已跟踪改动和经确认的必要新文件、执行 squash-aware rebase 并推送当前分支 |
