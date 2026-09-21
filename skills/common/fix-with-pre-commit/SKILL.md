@@ -10,15 +10,17 @@ description: 在最小文件范围内运行 pre-commit、修复真实问题并�
 ## 执行
 
 1. 读取项目 `AGENTS.md` 或等价约束，确认项目根目录和验证范围：
-   - 用户指定文件时，仅使用这些文件。
+   - 用户指定文件或全仓范围时，按指定范围执行；全仓 hook 可能改写文件，执行前说明并在执行后审查 diff。
    - 用户提供 linter 输出时，只提取其中唯一、存在的仓库内文件路径。
-   - 未指定范围时，只检查 staged 文件；没有 staged 文件则停止，不得扩大到全仓库。
+   - 未指定范围时，优先使用可明确归属本次任务的改动文件，否则使用 staged 文件；两者均不能确定时询问范围，不自行扩大到全仓库。
 2. 在项目根目录执行唯一适用的命令：
 
    ```bash
    pre-commit run --files <file1> <file2> ...
    # 或仅检查 staged 文件
    pre-commit run
+   # 仅在用户明确要求全仓检查时
+   pre-commit run --all-files
    ```
 
 3. 根据结果继续：
@@ -29,7 +31,7 @@ description: 在最小文件范围内运行 pre-commit、修复真实问题并�
 
 ## 硬约束
 
-- 禁止 `pre-commit run --all-files`；禁止未经用户明确要求执行 `pre-commit autoupdate`。
+- 默认不执行 `pre-commit run --all-files`，用户明确要求全仓检查时才使用；禁止未经用户明确要求执行 `pre-commit autoupdate`。
 - 不得仅为让检查通过而新增 `noqa`、`type: ignore`、exclude/ignore 配置、规则收窄或版本 pin；只有项目约定确有语义必要或用户明确要求时才可采用，并说明理由。
 - 不得覆盖或回退用户已有改动；自动修复产生意外语义变化时停止并说明。
 - 只报告实际执行的命令、文件范围和结果；局部通过不得表述为全仓库或 CI 通过，工具不可用也不得表述为代码失败。

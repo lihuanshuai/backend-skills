@@ -9,6 +9,15 @@
 
 ## 安装
 
+不同 Agent 的安装路径示例见下表；具体发现机制以对应 Agent 文档为准。
+
+| Agent | 安装路径示例 |
+|-------|--------------|
+| Cursor | `~/.cursor/skills/backend-skills` |
+| Claude（迁移兼容） | `~/.claude/skills/backend-skills` |
+| Codex（迁移兼容） | `~/.codex/skills/backend-skills` |
+| 项目级（通用约定） | `<项目根>/.agents/skills/backend-skills` |
+
 将本仓库 clone 到 Cursor 的 skills 目录下：
 
 ```bash
@@ -40,6 +49,6 @@ git clone https://github.com/lihuanshuai/backend-skills.git
 
 | 技能目录 | 说明 |
 |----------|------|
-| [skills/common/write-project-plan/](skills/common/write-project-plan/) | 基于真实仓库证据编写零上下文可执行的实施计划，包含精确文件、完整代码、验证命令和完成条件 |
+| [skills/common/write-project-plan/](skills/common/write-project-plan/) | 基于真实仓库证据编写实施计划，明确修改位置、接口契约、验证命令和完成条件，按需提供关键代码 |
 | [skills/common/execute-project-plan/](skills/common/execute-project-plan/) | 按已确认的实施计划逐步修改代码、验证结果并回写状态，支持完整执行、继续任务或从指定步骤恢复 |
 | [skills/common/git-commit-push/](skills/common/git-commit-push/) | 自动探测 Git 上下文，提交已跟踪改动和经确认的必要新文件、执行 squash-aware rebase 并推送当前分支 |
