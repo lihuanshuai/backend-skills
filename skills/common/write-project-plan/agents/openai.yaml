@@ -1,6 +1,0 @@
-interface:
-  display_name: "项目实施计划指南"
-  short_description: "基于仓库证据拆解需求并编写可直接执行、可验证的实施计划"
-  default_prompt: "使用 $write-project-plan 基于当前仓库证据为这个需求编写可直接执行的实施计划。"
-policy:
-  allow_implicit_invocation: false
